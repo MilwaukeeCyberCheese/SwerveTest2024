@@ -4,11 +4,9 @@
 
 package frc.utils;
 
-import edu.wpi.first.math.MathUtil;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.OIConstants;
 
 /** Add your docs here. */
 public class FilteredController {
@@ -25,8 +23,7 @@ public class FilteredController {
      * @return double
      */
     public double getXLeft(double deadzone) {
-        // return new InputFilter(controller.getLeftX()).getFiltered(deadzone);
-        return MathUtil.applyDeadband(controller.getLeftX(), OIConstants.kDriveDeadband);//TODO change the other ones
+        return new InputFilter(controller.getLeftX()).getFiltered(deadzone);
     }
 
     /**
@@ -59,13 +56,13 @@ public class FilteredController {
         return new InputFilter(controller.getRightY()).getFiltered(deadzone);
     }
 
-    /**
+     /**
      * Gets the filtered X input for the given stick.
      * 
      * @return double
      */
     public double getXLeft() {
-        return new InputFilter(controller.getLeftX()).getFiltered(OIConstants.kDriveDeadband);
+        return new InputFilter(controller.getLeftX()).getFiltered(0.2);
     }
 
     /**
@@ -74,7 +71,7 @@ public class FilteredController {
      * @return double
      */
     public double getXRight() {
-        return new InputFilter(controller.getRightX()).getFiltered(OIConstants.kDriveDeadband);
+        return new InputFilter(controller.getRightX()).getFiltered(0.2);
     }
 
     /**
@@ -83,7 +80,7 @@ public class FilteredController {
      * @return double
      */
     public double getYLeft() {
-        return new InputFilter(controller.getLeftY()).getFiltered(OIConstants.kDriveDeadband);
+        return new InputFilter(controller.getLeftY()).getFiltered(0.2);
     }
 
     /**
@@ -92,8 +89,9 @@ public class FilteredController {
      * @return double
      */
     public double getYRight() {
-        return new InputFilter(controller.getRightY()).getFiltered(OIConstants.kDriveDeadband);
+        return new InputFilter(controller.getRightY()).getFiltered(0.2);
     }
+
 
     /**
      * Returns if the right trigger is active or not within a deadzone
@@ -132,7 +130,7 @@ public class FilteredController {
      * @return boolean
      */
     public boolean getRightTriggerActive() {
-        if (controller.getRightTriggerAxis() > OIConstants.kDriveDeadband) {
+        if (controller.getRightTriggerAxis() > .2) {
             return true;
         } else {
             return false;
@@ -147,7 +145,7 @@ public class FilteredController {
      * @return boolean
      */
     public boolean getLeftTriggerActive() {
-        if (controller.getLeftTriggerAxis() > OIConstants.kDriveDeadband) {
+        if (controller.getLeftTriggerAxis() > .2) {
             return true;
         } else {
             return false;
