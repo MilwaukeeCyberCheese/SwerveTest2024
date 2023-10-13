@@ -10,13 +10,10 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
 
-/** 
-The filtered controller class automatically filters controllers, eliminating the need for excessive logic 
-*/
+/** Add your docs here. */
 public class FilteredController {
     private XboxController controller;
 
-//constructor
     public FilteredController(XboxController controller) {
         this.controller = controller;
     }
