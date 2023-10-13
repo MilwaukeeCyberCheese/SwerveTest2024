@@ -25,7 +25,8 @@ public class FilteredController {
      * @return double
      */
     public double getXLeft(double deadzone) {
-        return MathUtil.applyDeadband(controller.getLeftX(), deadzone);
+        // return new InputFilter(controller.getLeftX()).getFiltered(deadzone);
+        return MathUtil.applyDeadband(controller.getLeftX(), OIConstants.kDriveDeadband);//TODO change the other ones
     }
 
     /**
@@ -35,7 +36,7 @@ public class FilteredController {
      * @return double
      */
     public double getXRight(double deadzone) {
-        return MathUtil.applyDeadband(controller.getRightX(), deadzone);
+        return new InputFilter(controller.getRightX()).getFiltered(deadzone);
     }
 
     /**
@@ -45,7 +46,7 @@ public class FilteredController {
      * @return double
      */
     public double getYLeft(double deadzone) {
-        return MathUtil.applyDeadband(controller.getLeftY(), deadzone);
+        return new InputFilter(controller.getLeftY()).getFiltered(deadzone);
     }
 
     /**
@@ -55,7 +56,7 @@ public class FilteredController {
      * @return double
      */
     public double getYRight(double deadzone) {
-        return MathUtil.applyDeadband(controller.getRightY(), deadzone);
+        return new InputFilter(controller.getRightY()).getFiltered(deadzone);
     }
 
     /**
@@ -64,7 +65,7 @@ public class FilteredController {
      * @return double
      */
     public double getXLeft() {
-        return MathUtil.applyDeadband(controller.getLeftX(), OIConstants.kDriveDeadband);
+        return new InputFilter(controller.getLeftX()).getFiltered(OIConstants.kDriveDeadband);
     }
 
     /**
@@ -73,7 +74,7 @@ public class FilteredController {
      * @return double
      */
     public double getXRight() {
-        return MathUtil.applyDeadband(controller.getRightX(), OIConstants.kDriveDeadband);
+        return new InputFilter(controller.getRightX()).getFiltered(OIConstants.kDriveDeadband);
     }
 
     /**
@@ -82,7 +83,7 @@ public class FilteredController {
      * @return double
      */
     public double getYLeft() {
-        return MathUtil.applyDeadband(controller.getLeftY(), OIConstants.kDriveDeadband);
+        return new InputFilter(controller.getLeftY()).getFiltered(OIConstants.kDriveDeadband);
     }
 
     /**
@@ -91,7 +92,7 @@ public class FilteredController {
      * @return double
      */
     public double getYRight() {
-        return MathUtil.applyDeadband(controller.getRightY(), OIConstants.kDriveDeadband);
+        return new InputFilter(controller.getRightY()).getFiltered(OIConstants.kDriveDeadband);
     }
 
     /**
