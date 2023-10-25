@@ -2,10 +2,9 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.utils;
+package frc.robot.utils;
 
 import edu.wpi.first.math.MathUtil;
-import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
@@ -17,8 +16,8 @@ public class FilteredController {
     private XboxController controller;
 
 //constructor
-    public FilteredController(XboxController controller) {
-        this.controller = controller;
+    public FilteredController(int port) {
+        this.controller = new XboxController(port);
     }
 
     /**
@@ -48,7 +47,7 @@ public class FilteredController {
      * @return double
      */
     public double getYLeft(double deadzone) {
-        return MathUtil.applyDeadband(controller.getLeftY(), deadzone);
+        return MathUtil.applyDeadband(controller.getLeftY(), deadzone) * -1;
     }
 
     /**
@@ -58,7 +57,7 @@ public class FilteredController {
      * @return double
      */
     public double getYRight(double deadzone) {
-        return MathUtil.applyDeadband(controller.getRightY(), deadzone);
+        return MathUtil.applyDeadband(controller.getRightY(), deadzone) * -1;
     }
 
     /**
@@ -85,7 +84,7 @@ public class FilteredController {
      * @return double
      */
     public double getYLeft() {
-        return MathUtil.applyDeadband(controller.getLeftY(), OIConstants.kDriveDeadband);
+        return MathUtil.applyDeadband(controller.getLeftY(), OIConstants.kDriveDeadband) * -1;
     }
 
     /**
@@ -94,7 +93,7 @@ public class FilteredController {
      * @return double
      */
     public double getYRight() {
-        return MathUtil.applyDeadband(controller.getRightY(), OIConstants.kDriveDeadband);
+        return MathUtil.applyDeadband(controller.getRightY(), OIConstants.kDriveDeadband) * -1;
     }
 
     /**
@@ -214,8 +213,8 @@ public class FilteredController {
      * 
      * @return boolean
      */
-    public BooleanSupplier getPOVPressed() {
-        return () -> controller.getPOV() != -1;
+    public boolean getPOVPressed() {
+        return controller.getPOV() != -1;
     }
 
     /**
