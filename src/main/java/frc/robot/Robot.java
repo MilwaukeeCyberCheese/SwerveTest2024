@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,6 +40,7 @@ public class Robot extends TimedRobot {
     m_autoChooser.setDefaultOption("Zilch", null);
     m_autoChooser.addOption("Test", new AutoTest(RobotContainer.m_robotDrive));
 
+    CameraServer.startAutomaticCapture();
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
