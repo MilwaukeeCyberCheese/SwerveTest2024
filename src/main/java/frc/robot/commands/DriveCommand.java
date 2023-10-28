@@ -40,6 +40,31 @@ public class DriveCommand extends CommandBase {
         addRequirements(m_driveSubsystem);
     }
 
+     /**
+     * Command for driving the robot with dynamic slowing
+     * 
+     * 
+     * @param driveSubsystem subsystem for driving the robot
+     * @param xSpeed         speed to move on the x-axis
+     * @param ySpeed         speed to move on the y-axis
+     * @param rotSpeed       rotational speed, positive is counter-clockwise
+     * @param fieldRelative  whether commands are relative to the field or the
+     *                       robot, true is relative to the field
+     * @param rateLimit      whether to enable rate limiting
+     * @param slowModifier   amount to slow by
+     */
+    public DriveCommand(DriveSubsystem driveSubsystem, DoubleSupplier xSpeed, DoubleSupplier ySpeed,
+            DoubleSupplier rotSpeed, BooleanSupplier fieldRelative, BooleanSupplier rateLimit, DoubleSupplier slowModifier) {
+        m_driveSubsystem = driveSubsystem;
+        m_xSpeed =() -> xSpeed.getAsDouble() * slowModifier.getAsDouble();
+        m_ySpeed = () -> ySpeed.getAsDouble() * slowModifier.getAsDouble();
+        m_rotSpeed = () -> rotSpeed.getAsDouble() * slowModifier.getAsDouble();
+        m_fieldRelative = fieldRelative;
+        m_rateLimit = rateLimit;
+        m_slow = () -> false;
+        addRequirements(m_driveSubsystem);
+    }
+
     @Override
     public void execute() {
         m_driveSubsystem.drive(m_xSpeed.getAsDouble(), m_ySpeed.getAsDouble(), m_rotSpeed.getAsDouble(),

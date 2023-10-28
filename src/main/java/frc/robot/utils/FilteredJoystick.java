@@ -25,7 +25,7 @@ public class FilteredJoystick {
     }
 
     public double getThrottle(double deadzone) {
-        return MathUtil.applyDeadband(joystick.getThrottle(), deadzone);
+        return MathUtil.applyDeadband(joystick.getThrottle(), deadzone) * -1;
     }
 
     public double getTwist(double deadzone) {
@@ -45,11 +45,11 @@ public class FilteredJoystick {
     }
 
     public double getThrottle() {
-        return MathUtil.applyDeadband(joystick.getThrottle(), Constants.OIConstants.kDriveDeadband);
+        return MathUtil.applyDeadband(joystick.getThrottle(), Constants.OIConstants.kDriveDeadband) * -1;
     }
 
     public double getTwist(){
-        return MathUtil.applyDeadband(joystick.getTwist(), Constants.OIConstants.kDriveDeadband);
+        return MathUtil.applyDeadband(joystick.getTwist(), 0.2);
     }
 
      
@@ -125,50 +125,50 @@ public class FilteredJoystick {
         }
     }
 
-    public static boolean getButtonTwo(){
+    public  boolean getButtonTwo(){
         return joystick.getRawButton(2);
     }
 
-    public static boolean getButtonThree(){
+    public  boolean getButtonThree(){
         return joystick.getRawButton(3);
     }
 
-    public static boolean getButtonFour(){
+    public  boolean getButtonFour(){
         return joystick.getRawButton(4);
     }
 
     
-    public static boolean getButtonFive(){
+    public  boolean getButtonFive(){
         return joystick.getRawButton(5);
     }
 
-    public static boolean getButtonSix(){
+    public  boolean getButtonSix(){
         return joystick.getRawButton(6);
     }
 
-    public static boolean getButtonSeven(){
+    public  boolean getButtonSeven(){
         return joystick.getRawButton(7);
     }
 
     
-    public static boolean getButtonEight(){
+    public  boolean getButtonEight(){
         return joystick.getRawButton(8);
     }
 
-    public static boolean getButtonNine(){
+    public  boolean getButtonNine(){
         return joystick.getRawButton(9);
     }
 
-    public static boolean getButtonTen(){
+    public  boolean getButtonTen(){
         return joystick.getRawButton(10);
     }
 
     
-    public static boolean getButtonEleven(){
+    public  boolean getButtonEleven(){
         return joystick.getRawButton(11);
     }
 
-    public static boolean getButtonTwelve(){
+    public  boolean getButtonTwelve(){
         return joystick.getRawButton(12);
     }
 }
