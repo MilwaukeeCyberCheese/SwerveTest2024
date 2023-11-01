@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants;
 
 public class FilteredJoystick {
-    static Joystick joystick;
+    private Joystick joystick;
 
     /**
      * Filter class for the joysticks
@@ -176,6 +176,7 @@ public class FilteredJoystick {
         }
     }
 
+     
     public boolean getButtonTwo() {
         return joystick.getRawButton(2);
     }

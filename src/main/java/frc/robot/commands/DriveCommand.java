@@ -3,6 +3,7 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -38,9 +39,9 @@ public class DriveCommand extends CommandBase {
             m_ySpeed = ySpeed;
             m_rotSpeed = rotSpeed;
         } else {
-            m_xSpeed = () -> xSpeed.getAsDouble() * throttle.getAsDouble();
-            m_ySpeed = () -> ySpeed.getAsDouble() * throttle.getAsDouble();
-            m_rotSpeed = () -> rotSpeed.getAsDouble() * throttle.getAsDouble();
+            m_xSpeed = () -> xSpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 1.0, 0.2);
+            m_ySpeed = () -> ySpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 1.0, 0.2);
+            m_rotSpeed = () -> rotSpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 1.0, 0.2);
         }
         m_fieldRelative = fieldRelative;
         m_rateLimit = rateLimit;

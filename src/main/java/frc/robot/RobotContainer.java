@@ -29,9 +29,9 @@ public class RobotContainer {
 
         // initialize the controllers
         // the one on the left
-        FilteredJoystick m_leftJoystick = new FilteredJoystick(0);
+        public static FilteredJoystick m_leftJoystick = new FilteredJoystick(0);
         // the one on the right
-        FilteredJoystick m_rightJoystick = new FilteredJoystick(1);
+        public static FilteredJoystick m_rightJoystick = new FilteredJoystick(1);
         FilteredButton m_buttons = new FilteredButton(OIConstants.kButtonPort);
 
         /**

@@ -13,7 +13,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -74,6 +76,8 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
+
+    log();
   }
 
   /**
@@ -231,7 +235,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void log() {
-
+    SmartDashboard.putNumber("left x", RobotContainer.m_leftJoystick.getX());
+    SmartDashboard.putNumber("right y", RobotContainer.m_rightJoystick.getY());
+    SmartDashboard.putNumber("right x", RobotContainer.m_rightJoystick.getX());
+    SmartDashboard.putNumber("left throttle", RobotContainer.m_leftJoystick.getThrottle());
+    SmartDashboard.putNumber("right throttle", RobotContainer.m_rightJoystick.getThrottle());
   }
 
   /**
