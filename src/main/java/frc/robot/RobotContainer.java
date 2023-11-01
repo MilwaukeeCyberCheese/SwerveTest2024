@@ -41,7 +41,7 @@ public class RobotContainer {
                 // Configure the button bindings
                 configureButtonBindings();
 
-                // dynamic slow mode
+                // set default command for drive
                 m_robotDrive.setDefaultCommand(new DriveCommand(m_robotDrive, m_rightJoystick::getX,
                                 m_rightJoystick::getY, m_leftJoystick::getX,
                                 /*() -> m_leftJoystick.getThrottle() > 0.5*/() -> false,
