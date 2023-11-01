@@ -16,31 +16,6 @@ public class DriveCommand extends CommandBase {
     private final BooleanSupplier m_slow;
 
     /**
-     * Command for driving the robot
-     * 
-     * 
-     * @param driveSubsystem subsystem for driving the robot
-     * @param xSpeed         speed to move on the x-axis
-     * @param ySpeed         speed to move on the y-axis
-     * @param rotSpeed       rotational speed, positive is counter-clockwise
-     * @param fieldRelative  whether commands are relative to the field or the
-     *                       robot, true is relative to the field
-     * @param rateLimit      whether to enable rate limiting
-     * @param slow           when true, slows speed to 1/4
-     */
-    public DriveCommand(DriveSubsystem driveSubsystem, DoubleSupplier xSpeed, DoubleSupplier ySpeed,
-            DoubleSupplier rotSpeed, BooleanSupplier fieldRelative, BooleanSupplier rateLimit, BooleanSupplier slow) {
-        m_driveSubsystem = driveSubsystem;
-        m_xSpeed = xSpeed;
-        m_ySpeed = ySpeed;
-        m_rotSpeed = rotSpeed;
-        m_fieldRelative = fieldRelative;
-        m_rateLimit = rateLimit;
-        m_slow = slow;
-        addRequirements(m_driveSubsystem);
-    }
-
-     /**
      * Command for driving the robot with dynamic slowing
      * 
      * 
@@ -51,17 +26,25 @@ public class DriveCommand extends CommandBase {
      * @param fieldRelative  whether commands are relative to the field or the
      *                       robot, true is relative to the field
      * @param rateLimit      whether to enable rate limiting
-     * @param slowModifier   amount to slow by
+     * @param slow           whether to slow to 1/4
+     * @param throttle       rate to vroom vroom at
      */
     public DriveCommand(DriveSubsystem driveSubsystem, DoubleSupplier xSpeed, DoubleSupplier ySpeed,
-            DoubleSupplier rotSpeed, BooleanSupplier fieldRelative, BooleanSupplier rateLimit, DoubleSupplier slowModifier) {
+            DoubleSupplier rotSpeed, BooleanSupplier fieldRelative, BooleanSupplier rateLimit, BooleanSupplier slow,
+            DoubleSupplier throttle) {
         m_driveSubsystem = driveSubsystem;
-        m_xSpeed =() -> xSpeed.getAsDouble() * slowModifier.getAsDouble();
-        m_ySpeed = () -> ySpeed.getAsDouble() * slowModifier.getAsDouble();
-        m_rotSpeed = () -> rotSpeed.getAsDouble() * slowModifier.getAsDouble();
+        if (slow.getAsBoolean()) {
+            m_xSpeed = xSpeed;
+            m_ySpeed = ySpeed;
+            m_rotSpeed = rotSpeed;
+        } else {
+            m_xSpeed = () -> xSpeed.getAsDouble() * throttle.getAsDouble();
+            m_ySpeed = () -> ySpeed.getAsDouble() * throttle.getAsDouble();
+            m_rotSpeed = () -> rotSpeed.getAsDouble() * throttle.getAsDouble();
+        }
         m_fieldRelative = fieldRelative;
         m_rateLimit = rateLimit;
-        m_slow = () -> false;
+        m_slow = slow;
         addRequirements(m_driveSubsystem);
     }
 

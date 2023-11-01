@@ -28,7 +28,10 @@ public class RobotContainer {
         public final static DriveSubsystem m_robotDrive = new DriveSubsystem();
 
         // initialize the controllers
-        FilteredJoystick m_joystick = new FilteredJoystick(1);
+        // the one on the left
+        FilteredJoystick m_leftJoystick = new FilteredJoystick(0);
+        // the one on the right
+        FilteredJoystick m_rightJoystick = new FilteredJoystick(1);
         FilteredButton m_buttons = new FilteredButton(OIConstants.kButtonPort);
 
         /**
@@ -38,20 +41,12 @@ public class RobotContainer {
                 // Configure the button bindings
                 configureButtonBindings();
 
-                // static slow mode
-                // m_robotDrive.setDefaultCommand(new DriveCommand(m_robotDrive,
-                // m_joystick::getX,
-                // m_joystick::getY, m_joystick::getTwist,
-                // () -> m_joystick.getThrottle() > 0,
-                // Constants.DriveConstants.kRateLimitsEnabled,
-                // m_joystick::getButtonTwo));
-
                 // dynamic slow mode
-                m_robotDrive.setDefaultCommand(new DriveCommand(m_robotDrive, m_joystick::getX,
-                                m_joystick::getY, m_joystick::getTwist,
-                                () -> m_joystick.getThrottle() > 0,
-                                Constants.DriveConstants.kRateLimitsEnabled,
-                                () -> ((m_joystick.getThrottle()) + 1)/2));
+                m_robotDrive.setDefaultCommand(new DriveCommand(m_robotDrive, m_rightJoystick::getX,
+                                m_rightJoystick::getY, m_leftJoystick::getX,
+                                /*() -> m_leftJoystick.getThrottle() > 0.5*/() -> false,
+                                Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
+                                m_rightJoystick::getThrottle));
 
         }
 
@@ -68,9 +63,9 @@ public class RobotContainer {
         private void configureButtonBindings() {
                 // top left button and x button on controller sets wheels to x
                 new Trigger(m_buttons::getOneA).or(
-                                m_joystick::getButtonSeven).whileTrue(new WheelsX(m_robotDrive));
+                                m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_robotDrive));
                 // top right button resets gyro
-                new Trigger(m_buttons::getOneC).or(m_joystick::getButtonFive).onTrue(new GyroReset());
+                new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
                 // bottom middle button stops drive
                 new Trigger(m_buttons::getThreeB).whileTrue(new DriveStop(m_robotDrive));
         }
