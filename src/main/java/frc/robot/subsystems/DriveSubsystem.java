@@ -108,8 +108,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param xSpeed        Speed of the robot in the x direction (forward).
    * @param ySpeed        Speed of the robot in the y direction (sideways).
    * @param rot           Angular rate of the robot.
-   * @param fieldRelative Whether the provided x and y speeds are relative to the
-   *                      field.
+   * @param fieldRelative Whether the provided x and y speeds are relative to the field.
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    * @param slow          Whether to enable slow mode for more precise control.
    */
@@ -173,7 +172,7 @@ public class DriveSubsystem extends SubsystemBase {
       xSpeedDelivered = xSpeedCommanded * Constants.DriveConstants.kSlowModifier;
       ySpeedDelivered = ySpeedCommanded * Constants.DriveConstants.kSlowModifier;
       rotDelivered = m_currentRotation * Constants.DriveConstants.kSlowModifier;
-    } else{
+    } else {
       xSpeedDelivered = xSpeedCommanded * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
       ySpeedDelivered = ySpeedCommanded * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
       rotDelivered = m_currentRotation * Constants.DriveConstants.kMaxAngularSpeed;
@@ -183,7 +182,8 @@ public class DriveSubsystem extends SubsystemBase {
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle() * (Constants.DriveConstants.kGyroReversed ? -1 : 1)))
+                Rotation2d
+                    .fromDegrees(Constants.Sensors.gyro.getAngle() * (Constants.DriveConstants.kGyroReversed ? -1 : 1)))
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
@@ -197,10 +197,10 @@ public class DriveSubsystem extends SubsystemBase {
    * Sets the wheels into an X formation to prevent movement.
    */
   public void setX() {
-    m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI/4)));
-    m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI/4)));
-    m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(Math.PI/4)));
-    m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-Math.PI/4)));
+    m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
+    m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
+    m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(Math.PI / 4)));
+    m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-Math.PI / 4)));
   }
 
   /**
@@ -233,6 +233,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void log() {
 
   }
+
   /**
    * Returns the heading of the robot.
    *

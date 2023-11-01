@@ -7,46 +7,100 @@ import frc.robot.Constants;
 public class FilteredJoystick {
     static Joystick joystick;
 
+    /**
+     * Filter class for the joysticks
+     * 
+     * @param port the port the joystick is plugged into
+     */
     public FilteredJoystick(int port) {
         joystick = new Joystick(port);
     }
 
+    /**
+     * Returns the x-value of the joystick
+     * 
+     * @param deadzone zone in which no value is returned
+     */
     public double getX(double deadzone) {
         return MathUtil.applyDeadband(joystick.getX(), deadzone);
     }
 
+     /**
+     * Returns the y-value of the joystick
+     * 
+     * @param deadzone zone in which no value is returned
+     */
     public double getY(double deadzone) {
         return MathUtil.applyDeadband(joystick.getY(), deadzone) * -1;
     }
 
+     /**
+     * Returns the z-value of the joystick
+     * 
+     * @param deadzone zone in which no value is returned
+     */
     public double getZ(double deadzone) {
         return MathUtil.applyDeadband(joystick.getZ(), deadzone);
     }
 
+     /**
+     * Returns the throttle-value of the joystick
+     * 
+     * @param deadzone zone in which no value is returned
+     */
     public double getThrottle(double deadzone) {
         return ((MathUtil.applyDeadband(joystick.getThrottle(), deadzone) * -1) + 1) / 2;
     }
 
+     /**
+     * Returns the twist-value of the joystick
+     * 
+     * @param deadzone zone in which no value is returned
+     */
     public double getTwist(double deadzone) {
         return MathUtil.applyDeadband(joystick.getTwist(), deadzone);
     }
 
+     /**
+     * Returns the x-value of the joystick
+     * 
+     */
     public double getX() {
         return MathUtil.applyDeadband(joystick.getX(), Constants.OIConstants.kDriveDeadband);
     }
 
+     /**
+     * Returns the y-value of the joystick
+     * 
+     * @param deadzone zone in which no value is returned
+     */
     public double getY() {
         return MathUtil.applyDeadband(joystick.getY(), Constants.OIConstants.kDriveDeadband) * -1;
     }
 
+     /**
+     * Returns the z-value of the joystick
+     * 
+     * @param deadzone zone in which no value is returned
+     */
     public double getZ() {
         return MathUtil.applyDeadband(joystick.getZ(), Constants.OIConstants.kDriveDeadband);
     }
 
+     /**
+     * Returns the throttle-value of the joystick
+     * 
+     * @param deadzone zone in which no value is returned
+     */
     public double getThrottle() {
         return ((MathUtil.applyDeadband(joystick.getThrottle(), Constants.OIConstants.kDriveDeadband) * -1) + 1) / 2;
     }
 
+     /**
+     * Returns the twist-value of the joystick
+     * 
+     * @param deadzone zone in which no value is returned
+     */
     public double getTwist() {
         return MathUtil.applyDeadband(joystick.getTwist(), 0.2);
     }
