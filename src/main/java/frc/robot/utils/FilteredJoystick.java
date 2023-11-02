@@ -106,7 +106,7 @@ public class FilteredJoystick {
     }
 
     /**
-     * Returns whether or not the trigger is pressed or not
+     * Returns whether or not the trigger is pressed
      * 
      * @return boolean
      */
