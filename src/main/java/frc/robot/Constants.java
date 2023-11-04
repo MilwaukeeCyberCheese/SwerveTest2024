@@ -8,6 +8,8 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax.IdleMode;
 import java.util.function.BooleanSupplier;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -171,5 +173,15 @@ public final class Constants {
 
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
+  }
+
+  public static final class VisionConstants{
+    public static final PhotonCamera lefty = new PhotonCamera("lefty");
+    public static final PhotonCamera righty = new PhotonCamera("righty");
+
+    public static final double kLeftCameraHeight = 22;//TODO
+    public static final double kRightCameraHeight = 22;//TODO
+    
+
   }
 }
