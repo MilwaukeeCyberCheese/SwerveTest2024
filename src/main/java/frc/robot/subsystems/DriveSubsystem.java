@@ -203,8 +203,8 @@ public class DriveSubsystem extends SubsystemBase {
   public void setX() {
     m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
     m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
-    m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(Math.PI / 4)));
-    m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-Math.PI / 4)));
+    m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
+    m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
   }
 
   /**
