@@ -39,9 +39,9 @@ public class DriveCommand extends CommandBase {
             m_ySpeed = ySpeed;
             m_rotSpeed = rotSpeed;
         } else {
-            m_xSpeed = () -> xSpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 0.2, 1.0);
-            m_ySpeed = () -> ySpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 0.2, 1.0);
-            m_rotSpeed = () -> rotSpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 0.2, 1.0);
+            m_xSpeed = () -> xSpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 0.1, 1.0);
+            m_ySpeed = () -> ySpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 0.1, 1.0);
+            m_rotSpeed = () -> rotSpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 0.1, 1.0);
         }
         m_fieldRelative = fieldRelative;
         m_rateLimit = rateLimit;

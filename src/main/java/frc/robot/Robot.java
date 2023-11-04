@@ -39,8 +39,6 @@ public class Robot extends TimedRobot {
     // add autos
     m_autoChooser.setDefaultOption("Zilch", null);
     m_autoChooser.addOption("Test", new AutoTest(RobotContainer.m_robotDrive));
-
-    CameraServer.startAutomaticCapture();
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.

@@ -44,7 +44,7 @@ public class RobotContainer {
                 // set default command for drive
                 m_robotDrive.setDefaultCommand(new DriveCommand(m_robotDrive, m_rightJoystick::getX,
                                 m_rightJoystick::getY, m_leftJoystick::getX,
-                                /*() -> m_leftJoystick.getThrottle() > 0.5*/() -> false,
+                                m_leftJoystick::getButtonSix,
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
                                 m_rightJoystick::getThrottle));
 
