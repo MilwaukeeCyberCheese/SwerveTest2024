@@ -3,6 +3,7 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -16,7 +17,7 @@ public class DriveCommand extends CommandBase {
     private final BooleanSupplier m_slow;
 
     /**
-     * Command for driving the robot
+     * Command for driving the robot with dynamic slowing
      * 
      * 
      * @param driveSubsystem subsystem for driving the robot
@@ -26,14 +27,22 @@ public class DriveCommand extends CommandBase {
      * @param fieldRelative  whether commands are relative to the field or the
      *                       robot, true is relative to the field
      * @param rateLimit      whether to enable rate limiting
-     * @param slow           when true, slows speed to 1/4
+     * @param slow           whether to slow to 1/4
+     * @param throttle       rate to vroom vroom at
      */
     public DriveCommand(DriveSubsystem driveSubsystem, DoubleSupplier xSpeed, DoubleSupplier ySpeed,
-            DoubleSupplier rotSpeed, BooleanSupplier fieldRelative, BooleanSupplier rateLimit, BooleanSupplier slow) {
+            DoubleSupplier rotSpeed, BooleanSupplier fieldRelative, BooleanSupplier rateLimit, BooleanSupplier slow,
+            DoubleSupplier throttle) {
         m_driveSubsystem = driveSubsystem;
-        m_xSpeed = xSpeed;
-        m_ySpeed = ySpeed;
-        m_rotSpeed = rotSpeed;
+        if (slow.getAsBoolean()) {
+            m_xSpeed = xSpeed;
+            m_ySpeed = ySpeed;
+            m_rotSpeed = rotSpeed;
+        } else {
+            m_xSpeed = () -> xSpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 0.1, 1.0);
+            m_ySpeed = () -> ySpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 0.1, 1.0);
+            m_rotSpeed = () -> rotSpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 0.1, 1.0);
+        }
         m_fieldRelative = fieldRelative;
         m_rateLimit = rateLimit;
         m_slow = slow;

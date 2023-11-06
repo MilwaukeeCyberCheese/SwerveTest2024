@@ -12,7 +12,7 @@ import frc.robot.commands.GyroReset;
 import frc.robot.commands.WheelsX;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.utils.FilteredButton;
-import frc.robot.utils.FilteredController;
+import frc.robot.utils.FilteredJoystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -24,12 +24,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-        //Initialize subsystems
+        // Initialize subsystems
         public final static DriveSubsystem m_robotDrive = new DriveSubsystem();
 
-        //initialize the controllers
-        FilteredController m_driverController = new FilteredController(
-                        OIConstants.kDriverControllerPort);
+        // initialize the controllers
+        // the one on the left
+        public static FilteredJoystick m_leftJoystick = new FilteredJoystick(0);
+        // the one on the right
+        public static FilteredJoystick m_rightJoystick = new FilteredJoystick(1);
         FilteredButton m_buttons = new FilteredButton(OIConstants.kButtonPort);
 
         /**
@@ -39,15 +41,17 @@ public class RobotContainer {
                 // Configure the button bindings
                 configureButtonBindings();
 
-                // Configure default commands
-                m_robotDrive.setDefaultCommand(new DriveCommand(m_robotDrive, m_driverController::getXLeft,
-                                m_driverController::getYLeft, m_driverController::getXRight,
-                                () -> false,
-                                Constants.DriveConstants.kRateLimitsEnabled,
-                                m_driverController::getLeftTriggerActive));
+                // set default command for drive
+                m_robotDrive.setDefaultCommand(new DriveCommand(m_robotDrive, m_rightJoystick::getX,
+                                m_rightJoystick::getY, m_leftJoystick::getX,
+                                m_leftJoystick::getButtonSix,
+                                Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
+                                m_rightJoystick::getThrottle));
+
         }
 
         /**
+         * 2
          * Use this method to define your button->command mappings. Buttons can be
          * created by
          * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its
@@ -57,12 +61,12 @@ public class RobotContainer {
          * {@link JoystickButton}.
          */
         private void configureButtonBindings() {
-                //top left button and x button on controller sets wheels to x
+                // top left button and x button on controller sets wheels to x
                 new Trigger(m_buttons::getOneA).or(
-                                m_driverController::getXButton).onTrue(new WheelsX(m_robotDrive));
-                //top right button resets gyro
-                new Trigger(m_buttons::getOneC).or(m_driverController::getYButton).onTrue(new GyroReset());
-                //bottom middle button stops drive
+                                m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_robotDrive));
+                // top right button resets gyro
+                new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
+                // bottom middle button stops drive
                 new Trigger(m_buttons::getThreeB).whileTrue(new DriveStop(m_robotDrive));
         }
 
