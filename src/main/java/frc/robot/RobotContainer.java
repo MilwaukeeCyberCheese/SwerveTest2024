@@ -9,13 +9,16 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveStop;
 import frc.robot.commands.GyroReset;
+import frc.robot.commands.OrientToTarget;
 import frc.robot.commands.WheelsX;
+import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.utils.FilteredButton;
 import frc.robot.utils.FilteredJoystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.OrientToTarget;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -26,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
         // Initialize subsystems
         public final static DriveSubsystem m_robotDrive = new DriveSubsystem();
+        private final static CameraSubsystem m_cameraSubsytem = new CameraSubsystem();
 
         // initialize the controllers
         // the one on the left
@@ -68,6 +72,8 @@ public class RobotContainer {
                 new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
                 // bottom middle button stops drive
                 new Trigger(m_buttons::getThreeB).whileTrue(new DriveStop(m_robotDrive));
+                //orient to target
+                new Trigger(m_rightJoystick::getPOVPressed).whileTrue(new OrientToTarget(m_robotDrive, m_cameraSubsytem));
         }
 
         /**

@@ -7,12 +7,11 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax.IdleMode;
 import java.util.function.BooleanSupplier;
-
 import org.photonvision.PhotonCamera;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -163,12 +162,6 @@ public final class Constants {
         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
         // Add kinematics to ensure max speed is actually obeyed
         .setKinematics(DriveConstants.kDriveKinematics);
-
-    public static final ProfiledPIDController thetaController = new ProfiledPIDController(
-        AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
-
-    public static final PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
-    public static final PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
   }
 
   public static final class NeoMotorConstants {
@@ -179,9 +172,15 @@ public final class Constants {
     public static final PhotonCamera lefty = new PhotonCamera("lefty");
     public static final PhotonCamera righty = new PhotonCamera("righty");
 
-    public static final double kLeftCameraHeight = 22;//TODO
-    public static final double kRightCameraHeight = 22;//TODO
+    public static final Transform3d robotToRightCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
+
     
 
+  }
+
+  public static final class PoseConstants{
+    // public static final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+
+    // PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, VisionConstants.righty, VisionConstants.robotToRightCam);
   }
 }
