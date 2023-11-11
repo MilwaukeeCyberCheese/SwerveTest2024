@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveStop;
+import frc.robot.commands.FollowTarget;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.OrientToTarget;
 import frc.robot.commands.WheelsX;
@@ -72,7 +73,8 @@ public class RobotContainer {
                 // bottom middle button stops drive
                 new Trigger(m_buttons::getThreeB).whileTrue(new DriveStop(m_robotDrive));
                 //orient to target
-                new Trigger(m_rightJoystick::getPOVPressed).whileTrue(new OrientToTarget(m_robotDrive, m_cameraSubsytem));
+                new Trigger(m_rightJoystick::getButtonThree).whileTrue(new OrientToTarget(m_robotDrive, m_cameraSubsytem));
+                new Trigger(m_rightJoystick::getButtonFour).whileTrue(new FollowTarget(m_robotDrive, m_cameraSubsytem));
         }
 
         /**

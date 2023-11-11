@@ -172,6 +172,15 @@ public final class Constants {
     public static final PhotonCamera lefty = new PhotonCamera("lefty");
     public static final PhotonCamera righty = new PhotonCamera("righty");
 
+    
+    public static final double kCameraHeight = Units.inchesToMeters(14);
+
+    public static final double kConeHeight = Units.inchesToMeters(13);
+    public static final int kConeIndex = 0;
+    
+    public static final double kCubeHeight = Units.inchesToMeters(5.5);
+    public static final int kCubeIndex = 1;
+
     public static final Transform3d robotToRightCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
 
     
