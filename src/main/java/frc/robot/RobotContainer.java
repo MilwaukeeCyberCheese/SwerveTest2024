@@ -11,6 +11,7 @@ import frc.robot.commands.DriveStop;
 import frc.robot.commands.FollowTarget;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.OrientToTarget;
+import frc.robot.commands.SwitchPipeline;
 import frc.robot.commands.WheelsX;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -75,6 +76,9 @@ public class RobotContainer {
                 //orient to target
                 new Trigger(m_rightJoystick::getButtonThree).whileTrue(new OrientToTarget(m_robotDrive, m_cameraSubsytem));
                 new Trigger(m_rightJoystick::getButtonFour).whileTrue(new FollowTarget(m_robotDrive, m_cameraSubsytem));
+                new Trigger(m_leftJoystick::getButtonFour).onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kConeIndex));
+                new Trigger(m_leftJoystick::getButtonFive).onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kCubeIndex));
+                
         }
 
         /**
