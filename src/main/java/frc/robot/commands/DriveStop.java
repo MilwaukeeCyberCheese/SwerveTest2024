@@ -1,9 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveStop extends CommandBase {
+public class DriveStop extends Command {
     private final DriveSubsystem m_driveSubsystem;
 
     /**
