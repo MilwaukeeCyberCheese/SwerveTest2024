@@ -1,9 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 
-public class GyroReset extends CommandBase {
+public class GyroReset extends Command {
 
     /**
      * Resets the gyro angle to zero

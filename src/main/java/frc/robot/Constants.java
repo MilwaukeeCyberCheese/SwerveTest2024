@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-<<<<<<< HEAD
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax.IdleMode;
 import java.util.function.BooleanSupplier;
@@ -17,14 +16,6 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
-=======
-import com.revrobotics.CANSparkMax.IdleMode;
-
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
->>>>>>> fae966c (updated to 2024)
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -39,7 +30,6 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-<<<<<<< HEAD
   public static final class Sensors {
     public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
   }
@@ -48,19 +38,13 @@ public final class Constants {
     // Rate limits on or off
     public static final BooleanSupplier kRateLimitsEnabled = () -> true;
 
-=======
-  public static final class DriveConstants {
->>>>>>> fae966c (updated to 2024)
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
     public static final double kMaxSpeedMetersPerSecond = 4.8;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
-<<<<<<< HEAD
     public static final double kSlowModifier = 0.7;
 
-=======
->>>>>>> fae966c (updated to 2024)
     public static final double kDirectionSlewRate = 1.2; // radians per second
     public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
     public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
@@ -71,7 +55,6 @@ public final class Constants {
     public static final double kWheelBase = Units.inchesToMeters(26.5);
     // Distance between front and back wheels on robot
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-<<<<<<< HEAD
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
         new Translation2d(kWheelBase / 2, kTrackWidth / 2),
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
@@ -83,18 +66,6 @@ public final class Constants {
     public static final double kFrontRightChassisAngularOffset = -Math.PI / 2;
     public static final double kBackLeftChassisAngularOffset = Math.PI / 2;
     public static final double kBackRightChassisAngularOffset = 0;
-=======
-        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-        new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
-
-    // Angular offsets of the modules relative to the chassis in radians
-    public static final double kFrontLeftChassisAngularOffset = -Math.PI / 2;
-    public static final double kFrontRightChassisAngularOffset = 0;
-    public static final double kBackLeftChassisAngularOffset = Math.PI;
-    public static final double kBackRightChassisAngularOffset = Math.PI / 2;
->>>>>>> fae966c (updated to 2024)
 
     // SPARK MAX CAN IDs
     public static final int kFrontLeftDrivingCanId = 1;
@@ -107,7 +78,6 @@ public final class Constants {
     public static final int kFrontRightTurningCanId = 6;
     public static final int kRearRightTurningCanId = 8;
 
-<<<<<<< HEAD
     public static final boolean kGyroReversed = true;
   }
 
@@ -122,18 +92,6 @@ public final class Constants {
 
     // Invert the turning encoder, since the output shaft rotates in the opposite
     // direction of
-=======
-    public static final boolean kGyroReversed = false;
-  }
-
-  public static final class ModuleConstants {
-    // The MAXSwerve module can be configured with one of three pinion gears: 12T, 13T, or 14T.
-    // This changes the drive speed of the module (a pinion gear with more teeth will result in a
-    // robot that drives faster).
-    public static final int kDrivingMotorPinionTeeth = 14;
-
-    // Invert the turning encoder, since the output shaft rotates in the opposite direction of
->>>>>>> fae966c (updated to 2024)
     // the steering motor in the MAXSwerve Module.
     public static final boolean kTurningEncoderInverted = true;
 
@@ -141,12 +99,8 @@ public final class Constants {
     public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
     public static final double kWheelDiameterMeters = 0.0762;
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
-<<<<<<< HEAD
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
     // teeth on the bevel pinion
-=======
-    // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15 teeth on the bevel pinion
->>>>>>> fae966c (updated to 2024)
     public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
     public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
         / kDrivingMotorReduction;
@@ -176,11 +130,7 @@ public final class Constants {
     public static final double kTurningMinOutput = -1;
     public static final double kTurningMaxOutput = 1;
 
-<<<<<<< HEAD
     public static final IdleMode kDrivingMotorIdleMode = IdleMode.kCoast;
-=======
-    public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
->>>>>>> fae966c (updated to 2024)
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
     public static final int kDrivingMotorCurrentLimit = 50; // amps
@@ -189,12 +139,8 @@ public final class Constants {
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
-<<<<<<< HEAD
     public static final int kButtonPort = 2;
     public static final double kDriveDeadband = 0.1;
-=======
-    public static final double kDriveDeadband = 0.05;
->>>>>>> fae966c (updated to 2024)
   }
 
   public static final class AutoConstants {
@@ -210,7 +156,6 @@ public final class Constants {
     // Constraint for the motion profiled robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
         kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
-<<<<<<< HEAD
 
     public static final TrajectoryConfig config = new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
@@ -222,8 +167,6 @@ public final class Constants {
 
     public static final PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
     public static final PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
-=======
->>>>>>> fae966c (updated to 2024)
   }
 
   public static final class NeoMotorConstants {
