@@ -8,6 +8,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax.IdleMode;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
+import java.util.function.IntSupplier;
 
 import org.photonvision.PhotonCamera;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -178,10 +179,10 @@ public final class Constants {
     public static final double kCameraHeight = Units.inchesToMeters(14);
 
     public static final double kConeHeight = Units.inchesToMeters(13);
-    public static final DoubleSupplier kConeIndex = () -> 0;
+    public static final IntSupplier kConeIndex = () -> 0;
 
     public static final double kCubeHeight = Units.inchesToMeters(5.5);
-    public static final DoubleSupplier kCubeIndex = () -> 1;
+    public static final IntSupplier kCubeIndex = () -> 1;
 
     public static final Transform3d robotToRightCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
 
