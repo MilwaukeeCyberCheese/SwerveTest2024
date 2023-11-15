@@ -7,7 +7,6 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax.IdleMode;
 import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 
 import org.photonvision.PhotonCamera;
