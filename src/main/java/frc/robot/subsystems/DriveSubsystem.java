@@ -4,6 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -61,6 +66,22 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+
+    // Configure the AutoBuilder last
+    AutoBuilder.configureHolonomic(
+        this::getPose, // Robot pose supplier
+        this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+        this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+        new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+            new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
+            4.5, // Max module speed, in m/s
+            0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+            new ReplanningConfig() // Default path replanning config. See the API for the options here
+        ),
+        this // Reference to this subsystem to set requirements
+    );
   }
 
   @Override
@@ -110,7 +131,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @param xSpeed        Speed of the robot in the x direction (forward).
    * @param ySpeed        Speed of the robot in the y direction (sideways).
    * @param rot           Angular rate of the robot.
-   * @param fieldRelative Whether the provided x and y speeds are relative to the field.
+   * @param fieldRelative Whether the provided x and y speeds are relative to the
+   *                      field.
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    * @param slow          Whether to enable slow mode for more precise control.
    */
@@ -196,6 +218,24 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
+   * Method to drive the robot relative to itself without limiters, etc.
+   * 
+   * @param ChassisSpeeds: chassisSpeeds to run the robot
+   */
+  public void driveRobotRelative(ChassisSpeeds chassisSpeeds) {
+
+    // Convert the commanded speeds into the correct units for the drivetrain
+    var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
+        .toSwerveModuleStates(chassisSpeeds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+        swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
+    m_frontLeft.setDesiredState(swerveModuleStates[0]);
+    m_frontRight.setDesiredState(swerveModuleStates[1]);
+    m_rearLeft.setDesiredState(swerveModuleStates[2]);
+    m_rearRight.setDesiredState(swerveModuleStates[3]);
+  }
+
+  /**
    * Sets the wheels into an X formation to prevent movement.
    */
   public void setX() {
@@ -217,6 +257,16 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(desiredStates[1]);
     m_rearLeft.setDesiredState(desiredStates[2]);
     m_rearRight.setDesiredState(desiredStates[3]);
+  }
+
+  /**
+   * Get state of swerve modules
+   * 
+   * @return SwerveModuleState[]
+   */
+  public SwerveModuleState[] getModuleStates() {
+    return new SwerveModuleState[]( () -> { m_frontLeft.getState(), m_frontRight.getState(), m_rearLeft.getState(),
+        m_rearRight.getState() });
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
@@ -251,5 +301,14 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public double getTurnRate() {
     return Constants.Sensors.gyro.getRate() * (Constants.DriveConstants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  /**
+   * Return robot relative chassis speeds object
+   * 
+   * @return ChassisSpeeds:
+   */
+  public ChassisSpeeds getRobotRelativeSpeeds() {
+    return SwerveDriveKinematics.toChassisSpeeds(this::getModuleStates);
   }
 }
