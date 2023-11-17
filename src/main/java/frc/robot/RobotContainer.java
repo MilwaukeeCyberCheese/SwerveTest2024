@@ -7,6 +7,8 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveStop;
@@ -30,6 +32,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+        // autochooser
+        private final SendableChooser<Command> autoChooser;
+
         // Initialize subsystems
         public final static DriveSubsystem m_robotDrive = new DriveSubsystem();
         private final static CameraSubsystem m_cameraSubsytem = new CameraSubsystem();
@@ -65,6 +70,9 @@ public class RobotContainer {
                                 m_robotDrive // Reference to this subsystem to set requirements
                 );
 
+                autoChooser = AutoBuilder.buildAutoChooser();
+                SmartDashboard.putData("Auto Chooser", autoChooser);
+
         }
 
         /**
@@ -96,12 +104,7 @@ public class RobotContainer {
 
         }
 
-        /**
-         * Use this to pass the autonomous command to the main {@link Robot} class.
-         *
-         * @return the command to run in autonomous
-         */
         public Command getAutonomousCommand() {
-                return Robot.m_autoChooser.getSelected();
+                return autoChooser.getSelected();
         }
 }
