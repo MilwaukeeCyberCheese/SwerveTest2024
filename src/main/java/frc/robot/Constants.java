@@ -5,7 +5,11 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkMax.IdleMode;
+
 import java.util.function.BooleanSupplier;
 import java.util.function.IntSupplier;
 
@@ -64,7 +68,7 @@ public final class Constants {
         new Translation2d(kWheelBase / 2, -kTrackWidth / 2));
 
     // Angular offsets of the modules relative to the chassis in radians
-    //ccw is positive
+    // ccw is positive
     public static final double kFrontLeftChassisAngularOffset = Math.PI;
     public static final double kFrontRightChassisAngularOffset = -Math.PI / 2;
     public static final double kBackLeftChassisAngularOffset = Math.PI / 2;
@@ -164,17 +168,26 @@ public final class Constants {
         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
         // Add kinematics to ensure max speed is actually obeyed
         .setKinematics(DriveConstants.kDriveKinematics);
+
+    public static final HolonomicPathFollowerConfig kPathFollowerConfig = new HolonomicPathFollowerConfig(
+        new PIDConstants(kPXController, 0.0, 0.0), // Translation PID constants
+        new PIDConstants(kPThetaController, 0.0, 0.0), // Rotation PID constants
+        DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
+        0.4, // Drive base radius in meters. Distance from robot center to
+        // furthest module. TODO
+        new ReplanningConfig() // Default path replanning config. See the API
+    // for the options here
+    );
   }
 
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
 
-  public static final class VisionConstants{
+  public static final class VisionConstants {
     public static final PhotonCamera lefty = new PhotonCamera("lefty");
     public static final PhotonCamera righty = new PhotonCamera("righty");
 
-    
     public static final double kCameraHeight = Units.inchesToMeters(14);
 
     public static final double kConeHeight = Units.inchesToMeters(13);
@@ -183,15 +196,18 @@ public final class Constants {
     public static final double kCubeHeight = Units.inchesToMeters(5.5);
     public static final IntSupplier kCubeIndex = () -> 1;
 
-    public static final Transform3d robotToRightCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
-
-    
+    public static final Transform3d robotToRightCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
+        new Rotation3d(0, 0, 0));
 
   }
 
-  public static final class PoseConstants{
-    // public static final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+  public static final class PoseConstants {
+    // public static final AprilTagFieldLayout aprilTagFieldLayout =
+    // AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
 
-    // PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, VisionConstants.righty, VisionConstants.robotToRightCam);
+    // PhotonPoseEstimator photonPoseEstimator = new
+    // PhotonPoseEstimator(aprilTagFieldLayout,
+    // PoseStrategy.CLOSEST_TO_REFERENCE_POSE, VisionConstants.righty,
+    // VisionConstants.robotToRightCam);
   }
 }

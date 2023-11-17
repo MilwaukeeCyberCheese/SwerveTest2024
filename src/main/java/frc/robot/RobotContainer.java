@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveCommand;
@@ -53,6 +55,16 @@ public class RobotContainer {
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
                                 m_rightJoystick::getThrottle));
 
+                // Configure the AutoBuilder last
+                AutoBuilder.configureHolonomic(
+                                m_robotDrive::getPose,
+                                m_robotDrive::resetOdometry,
+                                m_robotDrive::getRobotRelativeSpeeds,
+                                m_robotDrive::driveRobotRelative,
+                                Constants.AutoConstants.kPathFollowerConfig,
+                                m_robotDrive // Reference to this subsystem to set requirements
+                );
+
         }
 
         /**
@@ -73,12 +85,15 @@ public class RobotContainer {
                 new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
                 // bottom middle button stops drive
                 new Trigger(m_buttons::getThreeB).whileTrue(new DriveStop(m_robotDrive));
-                //orient to target
-                new Trigger(m_rightJoystick::getButtonThree).whileTrue(new OrientToTarget(m_robotDrive, m_cameraSubsytem));
+                // orient to target
+                new Trigger(m_rightJoystick::getButtonThree)
+                                .whileTrue(new OrientToTarget(m_robotDrive, m_cameraSubsytem));
                 new Trigger(m_rightJoystick::getButtonFour).whileTrue(new FollowTarget(m_robotDrive, m_cameraSubsytem));
-                new Trigger(m_leftJoystick::getButtonFour).onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kConeIndex));
-                new Trigger(m_leftJoystick::getButtonFive).onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kCubeIndex));
-                
+                new Trigger(m_leftJoystick::getButtonFour)
+                                .onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kConeIndex));
+                new Trigger(m_leftJoystick::getButtonFive)
+                                .onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kCubeIndex));
+
         }
 
         /**

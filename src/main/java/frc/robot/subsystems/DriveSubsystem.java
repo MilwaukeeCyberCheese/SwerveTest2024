@@ -3,12 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -24,22 +18,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
-  private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
+  private final static MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       Constants.DriveConstants.kFrontLeftDrivingCanId,
       Constants.DriveConstants.kFrontLeftTurningCanId,
       Constants.DriveConstants.kFrontLeftChassisAngularOffset);
 
-  private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
+  private final static MAXSwerveModule m_frontRight = new MAXSwerveModule(
       Constants.DriveConstants.kFrontRightDrivingCanId,
       Constants.DriveConstants.kFrontRightTurningCanId,
       Constants.DriveConstants.kFrontRightChassisAngularOffset);
 
-  private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
+  private final static MAXSwerveModule m_rearLeft = new MAXSwerveModule(
       Constants.DriveConstants.kRearLeftDrivingCanId,
       Constants.DriveConstants.kRearLeftTurningCanId,
       Constants.DriveConstants.kBackLeftChassisAngularOffset);
 
-  private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
+  private final static MAXSwerveModule m_rearRight = new MAXSwerveModule(
       Constants.DriveConstants.kRearRightDrivingCanId,
       Constants.DriveConstants.kRearRightTurningCanId,
       Constants.DriveConstants.kBackRightChassisAngularOffset);
@@ -67,21 +61,6 @@ public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
 
-    // Configure the AutoBuilder last
-    AutoBuilder.configureHolonomic(
-        this::getPose, // Robot pose supplier
-        this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-        this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-        this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-        new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-            new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
-            4.5, // Max module speed, in m/s
-            0.4, // Drive base radius in meters. Distance from robot center to furthest module.
-            new ReplanningConfig() // Default path replanning config. See the API for the options here
-        ),
-        this // Reference to this subsystem to set requirements
-    );
   }
 
   @Override
@@ -264,9 +243,9 @@ public class DriveSubsystem extends SubsystemBase {
    * 
    * @return SwerveModuleState[]
    */
-  public SwerveModuleState[] getModuleStates() {
-    return new SwerveModuleState[]( () -> { m_frontLeft.getState(), m_frontRight.getState(), m_rearLeft.getState(),
-        m_rearRight.getState() });
+  public static SwerveModuleState[] getModuleStates() {
+    SwerveModuleState[] states = {m_frontLeft.getState(), m_frontRight.getState(), m_rearLeft.getState(), m_rearRight.getState()};
+    return states;
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
@@ -303,12 +282,9 @@ public class DriveSubsystem extends SubsystemBase {
     return Constants.Sensors.gyro.getRate() * (Constants.DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
-  /**
-   * Return robot relative chassis speeds object
-   * 
-   * @return ChassisSpeeds:
-   */
-  public ChassisSpeeds getRobotRelativeSpeeds() {
-    return SwerveDriveKinematics.toChassisSpeeds(this::getModuleStates);
+  public ChassisSpeeds getRobotRelativeSpeeds(){
+    ChassisSpeeds speeds = Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
+    return speeds;
   }
+  
 }
