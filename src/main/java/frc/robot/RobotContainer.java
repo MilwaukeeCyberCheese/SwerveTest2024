@@ -5,7 +5,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,15 +41,18 @@ public class RobotContainer {
 
         // initialize the controllers
         // the one on the left
-        public static FilteredJoystick m_leftJoystick = new FilteredJoystick(0);
+        public static FilteredJoystick m_leftJoystick = new FilteredJoystick(Constants.OIConstants.kLeftJoystickPort);
         // the one on the right
-        public static FilteredJoystick m_rightJoystick = new FilteredJoystick(1);
+        public static FilteredJoystick m_rightJoystick = new FilteredJoystick(Constants.OIConstants.kRightJoystickPort);
         FilteredButton m_buttons = new FilteredButton(OIConstants.kButtonPort);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
         public RobotContainer() {
+
+                //name commands for use in pathPlanner
+                NamedCommands.registerCommand("OrientToTarget", new OrientToTarget(m_robotDrive, m_cameraSubsytem));
                 // Configure the button bindings
                 configureButtonBindings();
 
@@ -71,6 +74,7 @@ public class RobotContainer {
                 );
 
                 autoChooser = AutoBuilder.buildAutoChooser();
+                
                 SmartDashboard.putData("Auto Chooser", autoChooser);
 
         }
