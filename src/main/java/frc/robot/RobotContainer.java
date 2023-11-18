@@ -4,8 +4,15 @@
 
 package frc.robot;
 
+import java.util.List;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -51,7 +58,7 @@ public class RobotContainer {
          */
         public RobotContainer() {
 
-                //name commands for use in pathPlanner
+                // name commands for use in pathPlanner
                 NamedCommands.registerCommand("OrientToTarget", new OrientToTarget(m_robotDrive, m_cameraSubsytem));
                 // Configure the button bindings
                 configureButtonBindings();
@@ -74,6 +81,7 @@ public class RobotContainer {
                 );
 
                 autoChooser = AutoBuilder.buildAutoChooser();
+                
                 
                 SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -98,17 +106,24 @@ public class RobotContainer {
                 // bottom middle button stops drive
                 new Trigger(m_buttons::getThreeB).whileTrue(new DriveStop(m_robotDrive));
                 // orient to target
-                new Trigger(m_rightJoystick::getButtonThree)
+                new Trigger(m_rightJoystick::getButtonThree).and(m_buttons::getTwoB)
                                 .whileTrue(new OrientToTarget(m_robotDrive, m_cameraSubsytem));
                 new Trigger(m_rightJoystick::getButtonFour).whileTrue(new FollowTarget(m_robotDrive, m_cameraSubsytem));
                 new Trigger(m_leftJoystick::getButtonFour)
                                 .onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kConeIndex));
                 new Trigger(m_leftJoystick::getButtonFive)
                                 .onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kCubeIndex));
+                new Trigger(m_rightJoystick::getButtonTen).onTrue(m_robotDrive.runOnce(() -> m_robotDrive.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)))));
 
         }
 
         public Command getAutonomousCommand() {
-                return autoChooser.getSelected();
+        // return autoChooser.getSelected();
+
+        PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+
+        return AutoBuilder.followPathWithEvents(path);
         }
+
+        
 }

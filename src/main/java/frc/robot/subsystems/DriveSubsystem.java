@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import com.pathplanner.lib.util.PPLibTelemetry;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -84,7 +86,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    return new Pose2d(m_odometry.getPoseMeters().getY(), m_odometry.getPoseMeters().getX() * -1, m_odometry.getPoseMeters().getRotation());
   }
 
   /**
@@ -203,9 +205,11 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void driveRobotRelative(ChassisSpeeds chassisSpeeds) {
 
+    ChassisSpeeds invertedChassisSpeeds = new ChassisSpeeds(chassisSpeeds.vyMetersPerSecond * -1, chassisSpeeds.vxMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond);
+
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
-        .toSwerveModuleStates(chassisSpeeds);
+        .toSwerveModuleStates(invertedChassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
@@ -262,6 +266,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void log() {
+PPLibTelemetry.setCurrentPose(getPose());
+    
   }
 
   /**

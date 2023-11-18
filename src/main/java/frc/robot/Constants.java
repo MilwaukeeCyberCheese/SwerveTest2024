@@ -157,9 +157,9 @@ public final class Constants {
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
-    public static final double kPXController = 1;
-    public static final double kPYController = 1;
-    public static final double kPThetaController = 1;
+    public static final double kPXController = 0.1;
+    public static final double kPYController = 0.1;
+    public static final double kPThetaController = 0.1;
 
     // Constraint for the motion profiled robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -172,9 +172,9 @@ public final class Constants {
 
     public static final HolonomicPathFollowerConfig kPathFollowerConfig = new HolonomicPathFollowerConfig(
         new PIDConstants(kPXController, 0.0, 0.0), // Translation PID constants
-        new PIDConstants(kPThetaController, 0.0, 0.0), // Rotation PID constants
+        new PIDConstants(kPThetaController, 0.1, 0.0), // Rotation PID constants
         DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
-        0.4, // Drive base radius in meters. Distance from robot center to
+        0.53, // Drive base radius in meters. Distance from robot center to
         // furthest module. TODO
         new ReplanningConfig() // Default path replanning config. See the API
     // for the options here
