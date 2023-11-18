@@ -6,13 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.autos.AutoTest;
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to
@@ -23,9 +18,7 @@ import frc.robot.autos.AutoTest;
  * project.
  */
 public class Robot extends TimedRobot {
-  // creates sendable chooser for autos
-  public static final SendableChooser<SequentialCommandGroup> m_autoChooser = new SendableChooser<>();
-
+  
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -37,10 +30,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // add autos
-    m_autoChooser.setDefaultOption("Zilch", null);
-    m_autoChooser.addOption("Test", new AutoTest(RobotContainer.m_robotDrive));
-    SmartDashboard.putData("Autonomous", m_autoChooser);
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
