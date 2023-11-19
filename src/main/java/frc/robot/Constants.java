@@ -20,15 +20,19 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
+import frc.robot.subsystems.MAXSwerveModule;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -92,6 +96,17 @@ public final class Constants {
     public static final int kRearRightTurningCanId = 8;
 
     public static final boolean kGyroReversed = true;
+
+    // Odometry class for tracking robot pose
+  public static final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+    Constants.DriveConstants.kDriveKinematics,
+    Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle()),
+    new SwerveModulePosition[] {
+        ModuleConstants.m_frontLeft.getPosition(),
+        ModuleConstants.m_frontRight.getPosition(),
+        ModuleConstants.m_rearLeft.getPosition(),
+        ModuleConstants.m_rearRight.getPosition()
+    });
   }
 
   public static final class ModuleConstants {
@@ -148,6 +163,27 @@ public final class Constants {
 
     public static final int kDrivingMotorCurrentLimit = 50; // amps
     public static final int kTurningMotorCurrentLimit = 20; // amps
+
+    // Create MAXSwerveModules
+  public final static MAXSwerveModule m_frontLeft = new MAXSwerveModule(
+    Constants.DriveConstants.kFrontLeftDrivingCanId,
+    Constants.DriveConstants.kFrontLeftTurningCanId,
+    Constants.DriveConstants.kFrontLeftChassisAngularOffset);
+
+public final static MAXSwerveModule m_frontRight = new MAXSwerveModule(
+    Constants.DriveConstants.kFrontRightDrivingCanId,
+    Constants.DriveConstants.kFrontRightTurningCanId,
+    Constants.DriveConstants.kFrontRightChassisAngularOffset);
+
+public final static MAXSwerveModule m_rearLeft = new MAXSwerveModule(
+    Constants.DriveConstants.kRearLeftDrivingCanId,
+    Constants.DriveConstants.kRearLeftTurningCanId,
+    Constants.DriveConstants.kBackLeftChassisAngularOffset);
+
+public final static MAXSwerveModule m_rearRight = new MAXSwerveModule(
+    Constants.DriveConstants.kRearRightDrivingCanId,
+    Constants.DriveConstants.kRearRightTurningCanId,
+    Constants.DriveConstants.kBackRightChassisAngularOffset);
   }
 
   public static final class OIConstants {

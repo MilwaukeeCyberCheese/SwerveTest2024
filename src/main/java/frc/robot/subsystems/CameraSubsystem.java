@@ -69,7 +69,7 @@ public class CameraSubsystem extends SubsystemBase {
     }
 
     public void updateOdometry(){
-
+        Constants.VisionConstants.kPhotonPoseEstimator.setReferencePose();
     }
 
 }

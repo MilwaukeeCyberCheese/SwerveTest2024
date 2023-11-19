@@ -19,26 +19,7 @@ import frc.robot.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
-  // Create MAXSwerveModules
-  private final static MAXSwerveModule m_frontLeft = new MAXSwerveModule(
-      Constants.DriveConstants.kFrontLeftDrivingCanId,
-      Constants.DriveConstants.kFrontLeftTurningCanId,
-      Constants.DriveConstants.kFrontLeftChassisAngularOffset);
-
-  private final static MAXSwerveModule m_frontRight = new MAXSwerveModule(
-      Constants.DriveConstants.kFrontRightDrivingCanId,
-      Constants.DriveConstants.kFrontRightTurningCanId,
-      Constants.DriveConstants.kFrontRightChassisAngularOffset);
-
-  private final static MAXSwerveModule m_rearLeft = new MAXSwerveModule(
-      Constants.DriveConstants.kRearLeftDrivingCanId,
-      Constants.DriveConstants.kRearLeftTurningCanId,
-      Constants.DriveConstants.kBackLeftChassisAngularOffset);
-
-  private final static MAXSwerveModule m_rearRight = new MAXSwerveModule(
-      Constants.DriveConstants.kRearRightDrivingCanId,
-      Constants.DriveConstants.kRearRightTurningCanId,
-      Constants.DriveConstants.kBackRightChassisAngularOffset);
+  
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -49,16 +30,7 @@ public class DriveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(Constants.DriveConstants.kRotationalSlewRate);
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
-  // Odometry class for tracking robot pose
-  SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-      Constants.DriveConstants.kDriveKinematics,
-      Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle()),
-      new SwerveModulePosition[] {
-          m_frontLeft.getPosition(),
-          m_frontRight.getPosition(),
-          m_rearLeft.getPosition(),
-          m_rearRight.getPosition()
-      });
+  
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
