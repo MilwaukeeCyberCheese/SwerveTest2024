@@ -57,7 +57,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return new Pose2d(Constants.DriveConstants.m_odometry.getPoseMeters().getY(), Constants.DriveConstants.m_odometry.getPoseMeters().getX() * -1, Constants.DriveConstants.m_odometry.getPoseMeters().getRotation());
+    return new Pose2d(Constants.DriveConstants.m_odometry.getEstimatedPosition().getY(), Constants.DriveConstants.m_odometry.getEstimatedPosition().getX() * -1, Constants.DriveConstants.m_odometry.getEstimatedPosition().getRotation());
   }
 
   /**

@@ -20,13 +20,14 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -97,8 +98,11 @@ public final class Constants {
 
     public static final boolean kGyroReversed = true;
 
+    //starting pose of the robot
+    public static final Pose2d kStartingPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
+
     // Odometry class for tracking robot pose
-  public static final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+  public static final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(
     Constants.DriveConstants.kDriveKinematics,
     Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle()),
     new SwerveModulePosition[] {
@@ -106,7 +110,7 @@ public final class Constants {
         ModuleConstants.m_frontRight.getPosition(),
         ModuleConstants.m_rearLeft.getPosition(),
         ModuleConstants.m_rearRight.getPosition()
-    });
+    }, kStartingPose);
   }
 
   public static final class ModuleConstants {

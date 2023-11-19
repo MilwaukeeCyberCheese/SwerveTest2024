@@ -66,10 +66,12 @@ public class CameraSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         log();
+        updateOdometry();
     }
 
     public void updateOdometry(){
-        Constants.VisionConstants.kPhotonPoseEstimator.setReferencePose();
+        Constants.VisionConstants.kPhotonPoseEstimator.setReferencePose(Constants.DriveConstants.m_odometry.getPoseMeters());
+        Constants.DriveConstants.m_odometry.update(Constants.VisionConstants.kPhotonPoseEstimator.update());
     }
 
 }
