@@ -13,7 +13,13 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import java.util.function.BooleanSupplier;
 import java.util.function.IntSupplier;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -186,8 +192,8 @@ public final class Constants {
   }
 
   public static final class VisionConstants {
-    public static final PhotonCamera lefty = new PhotonCamera("lefty");
-    public static final PhotonCamera righty = new PhotonCamera("righty");
+    public static final PhotonCamera kLefty = new PhotonCamera("lefty");
+    public static final PhotonCamera kRighty = new PhotonCamera("righty");
 
     public static final double kCameraHeight = Units.inchesToMeters(14);
 
@@ -197,18 +203,22 @@ public final class Constants {
     public static final double kCubeHeight = Units.inchesToMeters(5.5);
     public static final IntSupplier kCubeIndex = () -> 1;
 
-    public static final Transform3d robotToRightCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
+    public static final Transform3d kRobotToLeftCam = new Transform3d(new Translation3d(-0.5, 0.0, 0.5),
         new Rotation3d(0, 0, 0));
+    public static final Transform3d kRobotToRightCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
+        new Rotation3d(0, 0, 0));
+       
+  public static final PhotonPoseEstimator kPhotonPoseEstimator = new PhotonPoseEstimator(kFieldLayout,
+      PoseStrategy.CLOSEST_TO_REFERENCE_POSE, kLefty, kRobotToLeftCam);
 
-  }
-
-  public static final class PoseConstants {
-    // public static final AprilTagFieldLayout aprilTagFieldLayout =
-    // AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
-
-    // PhotonPoseEstimator photonPoseEstimator = new
-    // PhotonPoseEstimator(aprilTagFieldLayout,
-    // PoseStrategy.CLOSEST_TO_REFERENCE_POSE, VisionConstants.righty,
-    // VisionConstants.robotToRightCam);
-  }
 }
+
+public static final class PoseConstants {
+  // public static final AprilTagFieldLayout aprilTagFieldLayout =
+  // AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+
+  // PhotonPoseEstimator photonPoseEstimator = new
+  // PhotonPoseEstimator(aprilTagFieldLayout,
+  // PoseStrategy.CLOSEST_TO_REFERENCE_POSE, VisionConstants.righty,
+  // VisionConstants.robotToRightCam);
+}}

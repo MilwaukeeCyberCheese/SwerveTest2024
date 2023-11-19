@@ -22,21 +22,21 @@ public class CameraSubsystem extends SubsystemBase {
 
     }
 
-    public static PhotonCamera getRighty() {
-        return Constants.VisionConstants.righty;
+    public static PhotonCamera getkRighty() {
+        return Constants.VisionConstants.kRighty;
     }
 
     public static void switchRightIndex(int index){
-        Constants.VisionConstants.righty.setPipelineIndex(index);
+        Constants.VisionConstants.kRighty.setPipelineIndex(index);
     }
 
     public static PhotonCamera getLeft() {
-        return Constants.VisionConstants.lefty;
+        return Constants.VisionConstants.kLefty;
     }
 
     public PhotonTrackedTarget getRightTarget() {
 
-        var result = Constants.VisionConstants.righty.getLatestResult();
+        var result = Constants.VisionConstants.kRighty.getLatestResult();
         target = result.getBestTarget();
         return target;
 
@@ -50,7 +50,7 @@ public class CameraSubsystem extends SubsystemBase {
 
     public void log() {
         SmartDashboard.putNumber("Gyro Yaw", Constants.Sensors.gyro.getYaw());
-        SmartDashboard.putNumber("Pipeline Index", Constants.VisionConstants.righty.getPipelineIndex());
+        SmartDashboard.putNumber("Pipeline Index", Constants.VisionConstants.kRighty.getPipelineIndex());
         try {
             SmartDashboard.putNumber("Target Yaw (deg)", target.getYaw());
             SmartDashboard.putNumber("Desired Angle (deg)", Constants.Sensors.gyro.getYaw() + target.getYaw());
@@ -66,6 +66,10 @@ public class CameraSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         log();
+    }
+
+    public void updateOdometry(){
+
     }
 
 }
