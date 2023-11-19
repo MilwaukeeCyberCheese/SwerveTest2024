@@ -10,7 +10,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
@@ -40,13 +39,13 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    m_odometry.update(
+    Constants.DriveConstants.m_odometry.update(
         Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle()),
         new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
+            Constants.ModuleConstants.m_frontLeft.getPosition(),
+            Constants.ModuleConstants.m_frontRight.getPosition(),
+            Constants.ModuleConstants.m_rearLeft.getPosition(),
+            Constants.ModuleConstants.m_rearRight.getPosition()
         });
 
     log();
@@ -58,7 +57,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return new Pose2d(m_odometry.getPoseMeters().getY(), m_odometry.getPoseMeters().getX() * -1, m_odometry.getPoseMeters().getRotation());
+    return new Pose2d(Constants.DriveConstants.m_odometry.getPoseMeters().getY(), Constants.DriveConstants.m_odometry.getPoseMeters().getX() * -1, Constants.DriveConstants.m_odometry.getPoseMeters().getRotation());
   }
 
   /**
@@ -67,13 +66,13 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    m_odometry.resetPosition(
+    Constants.DriveConstants.m_odometry.resetPosition(
         Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle()),
         new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
+            Constants.ModuleConstants.m_frontLeft.getPosition(),
+            Constants.ModuleConstants.m_frontRight.getPosition(),
+            Constants.ModuleConstants.m_rearLeft.getPosition(),
+            Constants.ModuleConstants.m_rearRight.getPosition()
         },
         pose);
   }
@@ -164,10 +163,10 @@ public class DriveSubsystem extends SubsystemBase {
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(swerveModuleStates[0]);
-    m_frontRight.setDesiredState(swerveModuleStates[1]);
-    m_rearLeft.setDesiredState(swerveModuleStates[2]);
-    m_rearRight.setDesiredState(swerveModuleStates[3]);
+    Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[0]);
+    Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[1]);
+    Constants.ModuleConstants.m_rearLeft.setDesiredState(swerveModuleStates[2]);
+    Constants.ModuleConstants.m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
 
   /**
@@ -184,20 +183,20 @@ public class DriveSubsystem extends SubsystemBase {
         .toSwerveModuleStates(invertedChassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(swerveModuleStates[0]);
-    m_frontRight.setDesiredState(swerveModuleStates[1]);
-    m_rearLeft.setDesiredState(swerveModuleStates[2]);
-    m_rearRight.setDesiredState(swerveModuleStates[3]);
+    Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[0]);
+    Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[1]);
+    Constants.ModuleConstants.m_rearLeft.setDesiredState(swerveModuleStates[2]);
+    Constants.ModuleConstants.m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
 
   /**
    * Sets the wheels into an X formation to prevent movement.
    */
   public void setX() {
-    m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
-    m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
-    m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
-    m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
+    Constants.ModuleConstants.m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
+    Constants.ModuleConstants.m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
+    Constants.ModuleConstants.m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
+    Constants.ModuleConstants.m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
   }
 
   /**
@@ -208,10 +207,10 @@ public class DriveSubsystem extends SubsystemBase {
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.desaturateWheelSpeeds(
         desiredStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(desiredStates[0]);
-    m_frontRight.setDesiredState(desiredStates[1]);
-    m_rearLeft.setDesiredState(desiredStates[2]);
-    m_rearRight.setDesiredState(desiredStates[3]);
+    Constants.ModuleConstants.m_frontLeft.setDesiredState(desiredStates[0]);
+    Constants.ModuleConstants.m_frontRight.setDesiredState(desiredStates[1]);
+    Constants.ModuleConstants.m_rearLeft.setDesiredState(desiredStates[2]);
+    Constants.ModuleConstants.m_rearRight.setDesiredState(desiredStates[3]);
   }
 
   /**
@@ -220,16 +219,16 @@ public class DriveSubsystem extends SubsystemBase {
    * @return SwerveModuleState[]
    */
   public static SwerveModuleState[] getModuleStates() {
-    SwerveModuleState[] states = {m_frontLeft.getState(), m_frontRight.getState(), m_rearLeft.getState(), m_rearRight.getState()};
+    SwerveModuleState[] states = {Constants.ModuleConstants.m_frontLeft.getState(), Constants.ModuleConstants.m_frontRight.getState(), Constants.ModuleConstants.m_rearLeft.getState(), Constants.ModuleConstants.m_rearRight.getState()};
     return states;
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
-    m_frontLeft.resetEncoders();
-    m_rearLeft.resetEncoders();
-    m_frontRight.resetEncoders();
-    m_rearRight.resetEncoders();
+    Constants.ModuleConstants.m_frontLeft.resetEncoders();
+    Constants.ModuleConstants.m_rearLeft.resetEncoders();
+    Constants.ModuleConstants.m_frontRight.resetEncoders();
+    Constants.ModuleConstants.m_rearRight.resetEncoders();
   }
 
   /** Zeroes the heading of the robot. */
