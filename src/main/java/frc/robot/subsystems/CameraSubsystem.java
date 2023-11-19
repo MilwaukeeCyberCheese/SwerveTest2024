@@ -1,10 +1,13 @@
 //TODO make this prettier
 package frc.robot.subsystems;
 
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+
 import edu.wpi.first.math.util.Units;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -70,8 +73,12 @@ public class CameraSubsystem extends SubsystemBase {
     }
 
     public void updateOdometry(){
-        Constants.VisionConstants.kPhotonPoseEstimator.setReferencePose(Constants.DriveConstants.m_odometry.getPoseMeters());
-        Constants.DriveConstants.m_odometry.update(Constants.VisionConstants.kPhotonPoseEstimator.update());
-    }
+        Constants.VisionConstants.kPhotonPoseEstimator.setReferencePose(Constants.DriveConstants.m_odometry.getEstimatedPosition());
+        var result = Constants.VisionConstants.kPhotonPoseEstimator.update();
+        if(result.isPresent()){
+        EstimatedRobotPose estimate = result.get();
+        Constants.DriveConstants.m_odometry.addVisionMeasurement(estimate.estimatedPose.toPose2d(), estimate.timestampSeconds);
+        //may be necessary to use @link Timer instead of .timestampSeconds
+    }}
 
 }
