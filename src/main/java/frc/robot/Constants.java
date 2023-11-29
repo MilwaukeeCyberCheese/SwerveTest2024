@@ -10,6 +10,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import java.io.IOException;
 import java.util.function.BooleanSupplier;
 import java.util.function.IntSupplier;
 
@@ -98,19 +99,19 @@ public final class Constants {
 
     public static final boolean kGyroReversed = true;
 
-    //starting pose of the robot
+    // starting pose of the robot
     public static final Pose2d kStartingPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
 
     // Odometry class for tracking robot pose
-  public static final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(
-    Constants.DriveConstants.kDriveKinematics,
-    Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle()),
-    new SwerveModulePosition[] {
-        ModuleConstants.m_frontLeft.getPosition(),
-        ModuleConstants.m_frontRight.getPosition(),
-        ModuleConstants.m_rearLeft.getPosition(),
-        ModuleConstants.m_rearRight.getPosition()
-    }, kStartingPose);
+    public static final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(
+        Constants.DriveConstants.kDriveKinematics,
+        Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle()),
+        new SwerveModulePosition[] {
+            ModuleConstants.m_frontLeft.getPosition(),
+            ModuleConstants.m_frontRight.getPosition(),
+            ModuleConstants.m_rearLeft.getPosition(),
+            ModuleConstants.m_rearRight.getPosition()
+        }, kStartingPose);
   }
 
   public static final class ModuleConstants {
@@ -169,25 +170,25 @@ public final class Constants {
     public static final int kTurningMotorCurrentLimit = 20; // amps
 
     // Create MAXSwerveModules
-  public final static MAXSwerveModule m_frontLeft = new MAXSwerveModule(
-    Constants.DriveConstants.kFrontLeftDrivingCanId,
-    Constants.DriveConstants.kFrontLeftTurningCanId,
-    Constants.DriveConstants.kFrontLeftChassisAngularOffset);
+    public final static MAXSwerveModule m_frontLeft = new MAXSwerveModule(
+        Constants.DriveConstants.kFrontLeftDrivingCanId,
+        Constants.DriveConstants.kFrontLeftTurningCanId,
+        Constants.DriveConstants.kFrontLeftChassisAngularOffset);
 
-public final static MAXSwerveModule m_frontRight = new MAXSwerveModule(
-    Constants.DriveConstants.kFrontRightDrivingCanId,
-    Constants.DriveConstants.kFrontRightTurningCanId,
-    Constants.DriveConstants.kFrontRightChassisAngularOffset);
+    public final static MAXSwerveModule m_frontRight = new MAXSwerveModule(
+        Constants.DriveConstants.kFrontRightDrivingCanId,
+        Constants.DriveConstants.kFrontRightTurningCanId,
+        Constants.DriveConstants.kFrontRightChassisAngularOffset);
 
-public final static MAXSwerveModule m_rearLeft = new MAXSwerveModule(
-    Constants.DriveConstants.kRearLeftDrivingCanId,
-    Constants.DriveConstants.kRearLeftTurningCanId,
-    Constants.DriveConstants.kBackLeftChassisAngularOffset);
+    public final static MAXSwerveModule m_rearLeft = new MAXSwerveModule(
+        Constants.DriveConstants.kRearLeftDrivingCanId,
+        Constants.DriveConstants.kRearLeftTurningCanId,
+        Constants.DriveConstants.kBackLeftChassisAngularOffset);
 
-public final static MAXSwerveModule m_rearRight = new MAXSwerveModule(
-    Constants.DriveConstants.kRearRightDrivingCanId,
-    Constants.DriveConstants.kRearRightTurningCanId,
-    Constants.DriveConstants.kBackRightChassisAngularOffset);
+    public final static MAXSwerveModule m_rearRight = new MAXSwerveModule(
+        Constants.DriveConstants.kRearRightDrivingCanId,
+        Constants.DriveConstants.kRearRightTurningCanId,
+        Constants.DriveConstants.kBackRightChassisAngularOffset);
   }
 
   public static final class OIConstants {
@@ -247,18 +248,22 @@ public final static MAXSwerveModule m_rearRight = new MAXSwerveModule(
         new Rotation3d(0, 0, 0));
     public static final Transform3d kRobotToRightCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
         new Rotation3d(0, 0, 0));
-       
-  public static final PhotonPoseEstimator kPhotonPoseEstimator = new PhotonPoseEstimator(kFieldLayout,
+
+    public static final AprilTagFieldLayout kAprilTagFieldLayout;
+
+    try{
+    kAprilTagFieldLayout = AprilTagFieldLayout
+        .loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+    }catch(IOException e){
+        throw new RuntimeException("Welp that's strange");
+    }
+
+  public static final PhotonPoseEstimator kPhotonPoseEstimator = new PhotonPoseEstimator(kAprilTagFieldLayout,
       PoseStrategy.CLOSEST_TO_REFERENCE_POSE, kLefty, kRobotToLeftCam);
+  // TODO
 
 }
 
 public static final class PoseConstants {
-  // public static final AprilTagFieldLayout aprilTagFieldLayout =
-  // AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
 
-  // PhotonPoseEstimator photonPoseEstimator = new
-  // PhotonPoseEstimator(aprilTagFieldLayout,
-  // PoseStrategy.CLOSEST_TO_REFERENCE_POSE, VisionConstants.righty,
-  // VisionConstants.robotToRightCam);
 }}
