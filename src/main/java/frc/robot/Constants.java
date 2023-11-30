@@ -207,6 +207,7 @@ public final class Constants {
     public static final double kPXController = 0.1;
     public static final double kPYController = 0.1;
     public static final double kPThetaController = 0.1;
+    public static final double kIThetaController = 0.01;
 
     // Constraint for the motion profiled robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -219,7 +220,7 @@ public final class Constants {
 
     public static final HolonomicPathFollowerConfig kPathFollowerConfig = new HolonomicPathFollowerConfig(
         new PIDConstants(kPXController, 0.0, 0.0), // Translation PID constants
-        new PIDConstants(kPThetaController, 0.1, 0.0), // Rotation PID constants
+        new PIDConstants(kPThetaController, kIThetaController, 0.0), // Rotation PID constants
         DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
         0.53, // Drive base radius in meters. Distance from robot center to
         // furthest module. TODO
@@ -233,6 +234,7 @@ public final class Constants {
   }
 
   public static final class VisionConstants {
+    
     public static final PhotonCamera kLefty = new PhotonCamera("lefty");
     public static final PhotonCamera kRighty = new PhotonCamera("righty");
 
@@ -249,17 +251,20 @@ public final class Constants {
     public static final Transform3d kRobotToRightCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
         new Rotation3d(0, 0, 0));
 
+    //this makes reading from a file work, it's kinda messy
     public static final AprilTagFieldLayout kAprilTagFieldLayout;
 
-    try{
-    kAprilTagFieldLayout = AprilTagFieldLayout
-        .loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
-    }catch(IOException e){
-        throw new RuntimeException("Welp that's strange");
+    static {
+        try {
+            kAprilTagFieldLayout = AprilTagFieldLayout
+                .loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+        } catch (IOException e) {
+            throw new RuntimeException("Welp that's strange");
+        }
     }
 
-  public static final PhotonPoseEstimator kPhotonPoseEstimator = new PhotonPoseEstimator(kAprilTagFieldLayout,
-      PoseStrategy.CLOSEST_TO_REFERENCE_POSE, kLefty, kRobotToLeftCam);
+    public static final PhotonPoseEstimator kPhotonPoseEstimator = new PhotonPoseEstimator(kAprilTagFieldLayout,
+        PoseStrategy.CLOSEST_TO_REFERENCE_POSE, kLefty, kRobotToLeftCam);
   // TODO
 
 }
