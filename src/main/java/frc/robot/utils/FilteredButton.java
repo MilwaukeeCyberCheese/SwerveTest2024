@@ -122,7 +122,7 @@ public class FilteredButton {
      * @return boolean 
      */
     public boolean getTopSwitch() {
-        return (controller.isConnected()) ? controller.getRawButton(10) : true;
+        return (controller.isConnected()) ? controller.getRawButton(10) : false;
     }
 
     /**
