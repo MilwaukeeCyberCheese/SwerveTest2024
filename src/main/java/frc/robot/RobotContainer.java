@@ -64,7 +64,7 @@ public class RobotContainer {
                 // set default command for drive
                 m_robotDrive.setDefaultCommand(new DriveCommand(m_robotDrive, m_rightJoystick::getX,
                                 m_rightJoystick::getY, m_leftJoystick::getX,
-                                () -> (!m_rightJoystick.getButtonSix() && !m_buttons.getTopSwitch()),
+                                () -> (!m_rightJoystick.getTriggerActive() && !m_buttons.getTopSwitch()),
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
                                 m_rightJoystick::getThrottle));
 
@@ -116,11 +116,11 @@ public class RobotContainer {
         }
 
         public Command getAutonomousCommand() {
-        // return autoChooser.getSelected();
+        return autoChooser.getSelected();
 
-        PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+        // PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
 
-        return AutoBuilder.followPathWithEvents(path);
+        // return AutoBuilder.followPathWithEvents(path);
         }
 
         

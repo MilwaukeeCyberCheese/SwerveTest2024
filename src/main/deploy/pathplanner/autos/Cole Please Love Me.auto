@@ -14,7 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Example Path"
+            "pathName": "Go To and Rotate"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Come Back"
           }
         }
       ]

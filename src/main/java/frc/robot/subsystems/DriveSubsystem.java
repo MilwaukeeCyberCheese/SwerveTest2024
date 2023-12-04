@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+
 import com.pathplanner.lib.util.PPLibTelemetry;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -18,7 +19,6 @@ import frc.robot.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
-  
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -29,8 +29,6 @@ public class DriveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(Constants.DriveConstants.kRotationalSlewRate);
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
-  
-
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
 
@@ -40,7 +38,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     Constants.DriveConstants.m_odometry.update(
-        Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle()),
+        Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle() * (Constants.DriveConstants.kGyroReversed ? -1 : 1)),
         new SwerveModulePosition[] {
             Constants.ModuleConstants.m_frontLeft.getPosition(),
             Constants.ModuleConstants.m_frontRight.getPosition(),
@@ -57,7 +55,9 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return new Pose2d(Constants.DriveConstants.m_odometry.getEstimatedPosition().getY(), Constants.DriveConstants.m_odometry.getEstimatedPosition().getX() * -1, Constants.DriveConstants.m_odometry.getEstimatedPosition().getRotation());
+    return new Pose2d(Constants.DriveConstants.m_odometry.getEstimatedPosition().getY(),
+        Constants.DriveConstants.m_odometry.getEstimatedPosition().getX() * -1,
+        Constants.DriveConstants.m_odometry.getEstimatedPosition().getRotation());
   }
 
   /**
@@ -67,7 +67,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     Constants.DriveConstants.m_odometry.resetPosition(
-        Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle()),
+        Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle() * (Constants.DriveConstants.kGyroReversed ? -1 : 1)),
         new SwerveModulePosition[] {
             Constants.ModuleConstants.m_frontLeft.getPosition(),
             Constants.ModuleConstants.m_frontRight.getPosition(),
@@ -176,7 +176,8 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void driveRobotRelative(ChassisSpeeds chassisSpeeds) {
 
-    ChassisSpeeds invertedChassisSpeeds = new ChassisSpeeds(chassisSpeeds.vyMetersPerSecond * -1, chassisSpeeds.vxMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond);
+    ChassisSpeeds invertedChassisSpeeds = new ChassisSpeeds(chassisSpeeds.vyMetersPerSecond * -1,
+        chassisSpeeds.vxMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond);
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
@@ -193,10 +194,13 @@ public class DriveSubsystem extends SubsystemBase {
    * Sets the wheels into an X formation to prevent movement.
    */
   public void setX() {
-    Constants.ModuleConstants.m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
-    Constants.ModuleConstants.m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
+    Constants.ModuleConstants.m_frontLeft
+        .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
+    Constants.ModuleConstants.m_frontRight
+        .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
     Constants.ModuleConstants.m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
-    Constants.ModuleConstants.m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
+    Constants.ModuleConstants.m_rearRight
+        .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
   }
 
   /**
@@ -219,7 +223,9 @@ public class DriveSubsystem extends SubsystemBase {
    * @return SwerveModuleState[]
    */
   public static SwerveModuleState[] getModuleStates() {
-    SwerveModuleState[] states = {Constants.ModuleConstants.m_frontLeft.getState(), Constants.ModuleConstants.m_frontRight.getState(), Constants.ModuleConstants.m_rearLeft.getState(), Constants.ModuleConstants.m_rearRight.getState()};
+    SwerveModuleState[] states = { Constants.ModuleConstants.m_frontLeft.getState(),
+        Constants.ModuleConstants.m_frontRight.getState(), Constants.ModuleConstants.m_rearLeft.getState(),
+        Constants.ModuleConstants.m_rearRight.getState() };
     return states;
   }
 
@@ -237,8 +243,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void log() {
-PPLibTelemetry.setCurrentPose(getPose());
-    
+    PPLibTelemetry.setCurrentPose(getPose());
+
   }
 
   /**
@@ -259,9 +265,9 @@ PPLibTelemetry.setCurrentPose(getPose());
     return Constants.Sensors.gyro.getRate() * (Constants.DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
-  public ChassisSpeeds getRobotRelativeSpeeds(){
+  public ChassisSpeeds getRobotRelativeSpeeds() {
     ChassisSpeeds speeds = Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
     return speeds;
   }
-  
+
 }

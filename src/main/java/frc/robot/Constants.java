@@ -50,6 +50,9 @@ import frc.robot.subsystems.MAXSwerveModule;
  */
 public final class Constants {
   public static final class Sensors {
+    /**
+     * remember to invert this with the kGyroReversed
+     */
     public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
   }
 
@@ -105,7 +108,7 @@ public final class Constants {
     // Odometry class for tracking robot pose
     public static final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(
         Constants.DriveConstants.kDriveKinematics,
-        Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle()),
+        Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle() * (Constants.DriveConstants.kGyroReversed ? -1 : 1)),
         new SwerveModulePosition[] {
             ModuleConstants.m_frontLeft.getPosition(),
             ModuleConstants.m_frontRight.getPosition(),
@@ -204,9 +207,10 @@ public final class Constants {
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
-    public static final double kPXController = 0.1;
-    public static final double kPYController = 0.1;
-    public static final double kPThetaController = Math.PI/2;
+    public static final double kPTranslationController = 3.8;
+    public static final double kITranslationController = 0.1;
+
+    public static final double kPThetaController = Math.PI;
     public static final double kIThetaController = 0.0;
 
     // Constraint for the motion profiled robot angle controller
@@ -219,11 +223,11 @@ public final class Constants {
         .setKinematics(DriveConstants.kDriveKinematics);
 
     public static final HolonomicPathFollowerConfig kPathFollowerConfig = new HolonomicPathFollowerConfig(
-        new PIDConstants(kPXController, 0.0, 0.0), // Translation PID constants
+        new PIDConstants(kPTranslationController, kITranslationController, 0.0), // Translation PID constants
         new PIDConstants(kPThetaController, kIThetaController, 0.0), // Rotation PID constants
         DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
         0.53, // Drive base radius in meters. Distance from robot center to
-        // furthest module. TODO
+        // furthest module
         new ReplanningConfig() // Default path replanning config. See the API
     // for the options here
     );
