@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -78,8 +77,7 @@ public class RobotContainer {
                 );
 
                 autoChooser = AutoBuilder.buildAutoChooser();
-                
-                
+
                 SmartDashboard.putData("Auto Chooser", autoChooser);
 
         }
@@ -110,13 +108,13 @@ public class RobotContainer {
                                 .onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kConeIndex));
                 new Trigger(m_leftJoystick::getButtonFive)
                                 .onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kCubeIndex));
-                new Trigger(m_rightJoystick::getButtonTen).onTrue(m_robotDrive.runOnce(() -> m_robotDrive.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)))));
+                new Trigger(m_rightJoystick::getButtonTen).onTrue(m_robotDrive.runOnce(
+                                () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)))));
 
         }
 
         public Command getAutonomousCommand() {
-        return autoChooser.getSelected();
+                return autoChooser.getSelected();
         }
 
-        
 }
