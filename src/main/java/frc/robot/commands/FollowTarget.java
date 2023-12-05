@@ -3,7 +3,9 @@ package frc.robot.commands;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -13,11 +15,6 @@ import frc.robot.subsystems.DriveSubsystem;
 public class FollowTarget extends Command {
     private final DriveSubsystem m_driveSubsystem;
     private final CameraSubsystem m_cameraSubsytem;
-    private PIDController thetaController = new PIDController(Constants.AutoConstants.kThetaPIDConstants.kP,
-            Constants.AutoConstants.kThetaPIDConstants.kI, Constants.AutoConstants.kThetaPIDConstants.kD);
-
-    private PIDController translationController = new PIDController(Constants.AutoConstants.kTranslationPIDConstants.kP,
-            Constants.AutoConstants.kTranslationPIDConstants.kI, Constants.AutoConstants.kTranslationPIDConstants.kD);
 
     /**
      * Point towards, and move towards, a detected
@@ -37,27 +34,34 @@ public class FollowTarget extends Command {
 
     @Override
     public void execute() {
+        Pose2d pose = new Pose2d();
         double thetaOutput = 0;
         double yOutput = 0;
-        PhotonTrackedTarget target = m_cameraSubsytem.getRightTarget();
-        double range = 0;
+         double range = 0;
+         PhotonTrackedTarget target = m_cameraSubsytem.getRightTarget();
+       
         if (target != null) {
-            double desiredAngle = Constants.Sensors.gyro.getYaw() + target.getYaw();
-            thetaOutput = thetaController.calculate(Constants.Sensors.gyro.getYaw(), desiredAngle);
+            thetaOutput = Math.toRadians(target.getYaw());
+
+            
 
             range = PhotonUtils.calculateDistanceToTargetMeters(
                     Constants.VisionConstants.kCameraHeight,
                     Constants.VisionConstants.kCubeHeight,
                     0,
                     Units.degreesToRadians(target.getPitch()));
-            if (range > 0.2) {
-                yOutput = -translationController.calculate(range, 0.5);
-            }
+
+            yOutput = (range > 0.2) ? range - 0.5 : 0.0;
+
+            
         }
 
-        m_cameraSubsytem.logging(thetaOutput, range, yOutput);
+        pose.transformBy(new Transform2d(0.0, yOutput, new Rotation2d(thetaOutput)));
 
-        m_driveSubsystem.drive(0.0, yOutput, thetaOutput, false, false, false);
+        
+
+        m_driveSubsystem.drive(pose);
+
     }
 
     @Override

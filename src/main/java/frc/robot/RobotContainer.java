@@ -71,7 +71,7 @@ public class RobotContainer {
                                 m_robotDrive::getPose,
                                 m_robotDrive::resetOdometry,
                                 m_robotDrive::getRobotRelativeSpeeds,
-                                m_robotDrive::driveRobotRelative,
+                                m_robotDrive::drive,
                                 Constants.AutoConstants.kPathFollowerConfig,
                                 m_robotDrive // Reference to this subsystem to set requirements
                 );

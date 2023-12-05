@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.pathplanner.lib.util.PPLibTelemetry;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,6 +21,16 @@ import frc.robot.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
+
+  // vision PIDs
+  private PIDController thetaController = new PIDController(Constants.AutoConstants.kThetaPIDConstants.kP,
+      Constants.AutoConstants.kThetaPIDConstants.kI, Constants.AutoConstants.kThetaPIDConstants.kD);
+
+  private PIDController xController = new PIDController(Constants.AutoConstants.kTranslationPIDConstants.kP,
+      Constants.AutoConstants.kTranslationPIDConstants.kI, Constants.AutoConstants.kTranslationPIDConstants.kD);
+
+  private PIDController yController = new PIDController(Constants.AutoConstants.kTranslationPIDConstants.kP,
+      Constants.AutoConstants.kTranslationPIDConstants.kI, Constants.AutoConstants.kTranslationPIDConstants.kD);
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -175,7 +186,7 @@ public class DriveSubsystem extends SubsystemBase {
    * 
    * @param ChassisSpeeds: chassisSpeeds to run the robot
    */
-  public void driveRobotRelative(ChassisSpeeds chassisSpeeds) {
+  public void drive(ChassisSpeeds chassisSpeeds) {
 
     ChassisSpeeds invertedChassisSpeeds = new ChassisSpeeds(chassisSpeeds.vyMetersPerSecond * -1,
         chassisSpeeds.vxMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond);
@@ -196,7 +207,7 @@ public class DriveSubsystem extends SubsystemBase {
    * 
    * @param ChassisSpeeds: chassisSpeeds to run the robot
    */
-  public void driveRobotRelativeLimited(ChassisSpeeds chassisSpeeds) {
+  public void driveLimited(ChassisSpeeds chassisSpeeds) {
 
     double xSpeedCommanded;
     double ySpeedCommanded;
@@ -260,6 +271,19 @@ public class DriveSubsystem extends SubsystemBase {
     Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[1]);
     Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[2]);
     Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[3]);
+  }
+
+  /**
+   * Drive to a pose, the pose is centered on the robot
+   * 
+   * @param pose position to drive to
+   */
+  public void drive(Pose2d pose){
+    double x = xController.calculate(0.0, pose.getX());
+    double y = yController.calculate(0.0, pose.getY());
+    double theta = thetaController.calculate(0.0, pose.getRotation().getRadians());
+
+    driveLimited(new ChassisSpeeds(x, y, theta));
   }
 
   /**
