@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import frc.robot.Constants;
+import frc.robot.shuffleboard.SwerveTab;
 import frc.robot.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -206,59 +207,53 @@ public class DriveSubsystem extends SubsystemBase {
     double ySpeed = chassisSpeeds.vyMetersPerSecond;
     double xSpeed = chassisSpeeds.vxMetersPerSecond;
     double rot = chassisSpeeds.omegaRadiansPerSecond;
-    
 
-    
-      // Convert XY to polar for rate limiting
-      double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
-      double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
+    // Convert XY to polar for rate limiting
+    double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
+    double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
 
-      // Calculate the direction slew rate based on an estimate of the lateral
-      // acceleration
-      double directionSlewRate;
-      if (m_currentTranslationMag != 0.0) {
-        directionSlewRate = Math.abs(Constants.DriveConstants.kDirectionSlewRate / m_currentTranslationMag);
-      } else {
-        directionSlewRate = 500.0; // some high number that means the slew rate is effectively instantaneous
-      }
+    // Calculate the direction slew rate based on an estimate of the lateral
+    // acceleration
+    double directionSlewRate;
+    if (m_currentTranslationMag != 0.0) {
+      directionSlewRate = Math.abs(Constants.DriveConstants.kDirectionSlewRate / m_currentTranslationMag);
+    } else {
+      directionSlewRate = 500.0; // some high number that means the slew rate is effectively instantaneous
+    }
 
-      double currentTime = WPIUtilJNI.now() * 1e-6;
-      double elapsedTime = currentTime - m_prevTime;
-      double angleDif = SwerveUtils.AngleDifference(inputTranslationDir, m_currentTranslationDir);
-      if (angleDif < 0.45 * Math.PI) {
-        m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir, inputTranslationDir,
-            directionSlewRate * elapsedTime);
-        m_currentTranslationMag = m_magLimiter.calculate(inputTranslationMag);
-      } else if (angleDif > 0.85 * Math.PI) {
-        if (m_currentTranslationMag > 1e-4) { // some small number to avoid floating-point errors with equality checking
-          // keep currentTranslationDir unchanged
-          m_currentTranslationMag = m_magLimiter.calculate(0.0);
-        } else {
-          m_currentTranslationDir = SwerveUtils.WrapAngle(m_currentTranslationDir + Math.PI);
-          m_currentTranslationMag = m_magLimiter.calculate(inputTranslationMag);
-        }
-      } else {
-        m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir, inputTranslationDir,
-            directionSlewRate * elapsedTime);
+    double currentTime = WPIUtilJNI.now() * 1e-6;
+    double elapsedTime = currentTime - m_prevTime;
+    double angleDif = SwerveUtils.AngleDifference(inputTranslationDir, m_currentTranslationDir);
+    if (angleDif < 0.45 * Math.PI) {
+      m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir, inputTranslationDir,
+          directionSlewRate * elapsedTime);
+      m_currentTranslationMag = m_magLimiter.calculate(inputTranslationMag);
+    } else if (angleDif > 0.85 * Math.PI) {
+      if (m_currentTranslationMag > 1e-4) { // some small number to avoid floating-point errors with equality checking
+        // keep currentTranslationDir unchanged
         m_currentTranslationMag = m_magLimiter.calculate(0.0);
+      } else {
+        m_currentTranslationDir = SwerveUtils.WrapAngle(m_currentTranslationDir + Math.PI);
+        m_currentTranslationMag = m_magLimiter.calculate(inputTranslationMag);
       }
-      m_prevTime = currentTime;
+    } else {
+      m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir, inputTranslationDir,
+          directionSlewRate * elapsedTime);
+      m_currentTranslationMag = m_magLimiter.calculate(0.0);
+    }
+    m_prevTime = currentTime;
 
-      xSpeedCommanded = m_currentTranslationMag * Math.cos(m_currentTranslationDir);
-      ySpeedCommanded = m_currentTranslationMag * Math.sin(m_currentTranslationDir);
-      m_currentRotation = m_rotLimiter.calculate(rot);
+    xSpeedCommanded = m_currentTranslationMag * Math.cos(m_currentTranslationDir);
+    ySpeedCommanded = m_currentTranslationMag * Math.sin(m_currentTranslationDir);
+    m_currentRotation = m_rotLimiter.calculate(rot);
 
-    
-
-  
-      xSpeedDelivered = xSpeedCommanded * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
-      ySpeedDelivered = ySpeedCommanded * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
-      rotDelivered = m_currentRotation * Constants.DriveConstants.kMaxAngularSpeed;
-    
+    xSpeedDelivered = xSpeedCommanded * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
+    ySpeedDelivered = ySpeedCommanded * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
+    rotDelivered = m_currentRotation * Constants.DriveConstants.kMaxAngularSpeed;
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
-         new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+        new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[0]);
@@ -322,15 +317,8 @@ public class DriveSubsystem extends SubsystemBase {
   public void log() {
     PPLibTelemetry.setCurrentPose(getPose());
 
-    Constants.ShuffleBoard.fLRot.setDouble(Constants.ModuleConstants.m_frontLeft.getState().angle.getDegrees());
-    Constants.ShuffleBoard.fLSpeed.setDouble(Constants.ModuleConstants.m_frontLeft.getState().speedMetersPerSecond);
-    Constants.ShuffleBoard.fRRot.setDouble(Constants.ModuleConstants.m_frontRight.getState().angle.getDegrees());
-    Constants.ShuffleBoard.fRSpeed.setDouble(Constants.ModuleConstants.m_frontRight.getState().speedMetersPerSecond);
-    Constants.ShuffleBoard.bLRot.setDouble(Constants.ModuleConstants.m_backLeft.getState().angle.getDegrees());
-    Constants.ShuffleBoard.bLSpeed.setDouble(Constants.ModuleConstants.m_backLeft.getState().speedMetersPerSecond);
-    Constants.ShuffleBoard.bRRot.setDouble(Constants.ModuleConstants.m_backRight.getState().angle.getDegrees());
-    Constants.ShuffleBoard.bRSpeed.setDouble(Constants.ModuleConstants.m_backRight.getState().speedMetersPerSecond);
-
+    SwerveTab.logSwerve(Constants.ModuleConstants.m_frontLeft, Constants.ModuleConstants.m_frontRight,
+        Constants.ModuleConstants.m_backLeft, Constants.ModuleConstants.m_backRight);
   }
 
   /**

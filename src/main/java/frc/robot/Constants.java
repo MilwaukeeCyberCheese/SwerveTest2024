@@ -54,40 +54,7 @@ import frc.robot.subsystems.MAXSwerveModule;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final class ShuffleBoard {
-        public static String[] tabNames = { "Swerve" };
-
-        public static ShuffleboardTab swerve = Shuffleboard.getTab(tabNames[0]);
-
-        public static GenericEntry fLRot = swerve.add("FL Rotation", 0).withWidget(BuiltInWidgets.kDial)
-                .withProperties(Map.of("min", 0, "max", 360))
-                .getEntry();
-        public static GenericEntry fLSpeed = swerve.add("FL Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-                .withProperties(Map.of("min", -3, "max", 3))
-                .getEntry();
-
-        public static GenericEntry fRRot = swerve.add("FR Rotation", 0).withWidget(BuiltInWidgets.kDial)
-                .withProperties(Map.of("min", 0, "max", 360))
-                .getEntry();
-        public static GenericEntry fRSpeed = swerve.add("FR Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-                .withProperties(Map.of("min", -3, "max", 3))
-                .getEntry();
-
-        public static GenericEntry bLRot = swerve.add("BL Rotation", 0).withWidget(BuiltInWidgets.kDial)
-                .withProperties(Map.of("min", 0, "max", 360))
-                .getEntry();
-        public static GenericEntry bLSpeed = swerve.add("BL Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-                .withProperties(Map.of("min", -3, "max", 3))
-                .getEntry();
-
-        public static GenericEntry bRRot = swerve.add("BR Rotation", 0).withWidget(BuiltInWidgets.kDial)
-                .withProperties(Map.of("min", 0, "max", 360))
-                .getEntry();
-        public static GenericEntry bRSpeed = swerve.add("BR Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-                .withProperties(Map.of("min", -3, "max", 3))
-                .getEntry();
-
-    }
+    
 
     public static final class Sensors {
         /**
