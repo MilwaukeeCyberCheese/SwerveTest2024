@@ -207,11 +207,13 @@ public final class Constants {
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
-    public static final double kPTranslationController = 3.8;
-    public static final double kITranslationController = 0.1;
+    public static final double kPTranslationController = 3;
+    public static final double kITranslationController = 1;
+    public static final double kDTranslationController = 0.0;
 
     public static final double kPThetaController = Math.PI;
     public static final double kIThetaController = 0.0;
+    public static final double kDThetaController = 0.0;
 
     // Constraint for the motion profiled robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -223,8 +225,8 @@ public final class Constants {
         .setKinematics(DriveConstants.kDriveKinematics);
 
     public static final HolonomicPathFollowerConfig kPathFollowerConfig = new HolonomicPathFollowerConfig(
-        new PIDConstants(kPTranslationController, kITranslationController, 0.0), // Translation PID constants
-        new PIDConstants(kPThetaController, kIThetaController, 0.0), // Rotation PID constants
+        new PIDConstants(kPTranslationController, kITranslationController, kDTranslationController), // Translation PID constants
+        new PIDConstants(kPThetaController, kIThetaController, kDThetaController), // Rotation PID constants
         DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
         0.53, // Drive base radius in meters. Distance from robot center to
         // furthest module
