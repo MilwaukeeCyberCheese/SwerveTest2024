@@ -34,7 +34,6 @@ public class FollowTarget extends Command {
 
     @Override
     public void execute() {
-        Pose2d pose = new Pose2d();
         double thetaOutput = 0;
         double yOutput = 0;
          double range = 0;
@@ -56,11 +55,11 @@ public class FollowTarget extends Command {
             
         }
 
-        pose.transformBy(new Transform2d(0.0, yOutput, new Rotation2d(thetaOutput)));
+        
 
         
 
-        m_driveSubsystem.drive(pose);
+        m_driveSubsystem.drive(new Pose2d(0.0, yOutput, new Rotation2d(thetaOutput)));
 
     }
 

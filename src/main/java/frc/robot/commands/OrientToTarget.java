@@ -3,6 +3,7 @@ package frc.robot.commands;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.CameraSubsystem;
@@ -11,9 +12,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class OrientToTarget extends Command {
     private final DriveSubsystem m_driveSubsystem;
     private final CameraSubsystem m_cameraSubsytem;
-    private PIDController thetaController = new PIDController(Constants.AutoConstants.kThetaPIDConstants.kP,
-            Constants.AutoConstants.kThetaPIDConstants.kI, Constants.AutoConstants.kThetaPIDConstants.kD);
-
+    
     /**
      * 
      * @param driveSubsystem  subsystem for driving the robot
