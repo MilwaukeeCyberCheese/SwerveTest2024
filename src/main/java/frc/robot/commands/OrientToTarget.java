@@ -12,7 +12,7 @@ public class OrientToTarget extends Command {
     private final DriveSubsystem m_driveSubsystem;
     private final CameraSubsystem m_cameraSubsytem;
     private PIDController thetaController = new PIDController(
-                0.01, 0, 0);
+                Constants.AutoConstants.kThetaPIDConstants);
 
     public OrientToTarget(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem) {
         m_driveSubsystem = driveSubsystem;
