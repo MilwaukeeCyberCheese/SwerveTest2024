@@ -7,9 +7,9 @@ public class DriveStop extends Command {
     private final DriveSubsystem m_driveSubsystem;
 
     /**
-     * Sets the drive speed to 0
+     * Stops the drivetrain from moving
      * 
-     * @param driveSubsystem subsystem for driving the robot
+     * @param driveSubsystem subsystem for driving the robot {@link frc.robot.subsystems.DriveSubsystem link}
      */
     public DriveStop(DriveSubsystem driveSubsystem) {
         m_driveSubsystem = driveSubsystem;

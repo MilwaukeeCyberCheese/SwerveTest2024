@@ -19,6 +19,16 @@ public class FollowTarget extends Command {
     private PIDController translationController = new PIDController(Constants.AutoConstants.kTranslationPIDConstants.kP,
             Constants.AutoConstants.kTranslationPIDConstants.kI, Constants.AutoConstants.kTranslationPIDConstants.kD);
 
+    /**
+     * Point towards, and move towards, a detected
+     * {@link org.photonvision.targeting.PhotonTrackedTarget#PhotonTrackedTarget()
+     * PhotonTrackedTarget}
+     * 
+     * @param driveSubsystem  subsystem used for driving
+     *                        {@link frc.robot.subsystems.DriveSubsystem link}
+     * @param cameraSubsystem subsystem containing the cameras
+     *                        {@link frc.robot.subsystems.CameraSubsystem link}
+     */
     public FollowTarget(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem) {
         m_driveSubsystem = driveSubsystem;
         m_cameraSubsytem = cameraSubsystem;

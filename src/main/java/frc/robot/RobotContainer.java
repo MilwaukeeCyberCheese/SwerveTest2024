@@ -105,9 +105,11 @@ public class RobotContainer {
                                 .whileTrue(new OrientToTarget(m_robotDrive, m_cameraSubsytem));
                 new Trigger(m_rightJoystick::getButtonFour).whileTrue(new FollowTarget(m_robotDrive, m_cameraSubsytem));
                 new Trigger(m_leftJoystick::getButtonFour)
-                                .onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kConeIndex));
+                                .onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kConeIndex,
+                                                () -> 1));
                 new Trigger(m_leftJoystick::getButtonFive)
-                                .onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kCubeIndex));
+                                .onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kCubeIndex,
+                                                () -> 1));
                 new Trigger(m_rightJoystick::getButtonTen).onTrue(m_robotDrive.runOnce(
                                 () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)))));
 

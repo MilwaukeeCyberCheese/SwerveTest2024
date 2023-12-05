@@ -20,12 +20,11 @@ public class DriveCommand extends Command {
      * Command for driving the robot with dynamic slowing
      * 
      * 
-     * @param driveSubsystem subsystem for driving the robot
+     * @param driveSubsystem subsystem for driving the robot {@link frc.robot.subsystems.DriveSubsystem link}
      * @param xSpeed         speed to move on the x-axis
      * @param ySpeed         speed to move on the y-axis
      * @param rotSpeed       rotational speed, positive is counter-clockwise
-     * @param fieldRelative  whether commands are relative to the field or the
-     *                       robot, true is relative to the field
+     * @param fieldRelative  whether commands are relative to the field or the robot, true is relative to the field
      * @param rateLimit      whether to enable rate limiting
      * @param slow           whether to slow to 1/4
      * @param throttle       rate to vroom vroom at

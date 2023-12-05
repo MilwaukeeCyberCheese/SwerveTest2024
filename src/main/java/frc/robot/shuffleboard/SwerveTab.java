@@ -43,7 +43,11 @@ public class SwerveTab {
                         .getEntry();
 
         public static ComplexWidget gyroOdo = swerveTab.add(Constants.Sensors.gyro).withWidget(BuiltInWidgets.kGyro)
-                        .withProperties(Map.of("major tick spacing", 30)).withSize(3, 4).withPosition(7, 4);
+                        .withProperties(Map.of("major tick spacing", 30)).withSize(3, 3).withPosition(7, 0);
+
+        public static ComplexWidget gyroAccel = swerveTab.add(Constants.Sensors.gyro)
+                        .withWidget(BuiltInWidgets.k3AxisAccelerometer).withProperties(Map.of()).withSize(3, 3)
+                        .withPosition(7, 3);
 
         /**
          * Add positions of swerve modules to the dashboard

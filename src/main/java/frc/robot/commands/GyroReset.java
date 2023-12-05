@@ -8,7 +8,7 @@ public class GyroReset extends Command {
     /**
      * Resets the gyro angle to zero
      * 
-     * @param DriveSubsystem subsystem for driving
+     * @param DriveSubsystem subsystem for driving the robot {@link frc.robot.subsystems.DriveSubsystem link}
      */
     public GyroReset() {
     }

@@ -5,7 +5,6 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-
 import edu.wpi.first.math.util.Units;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,8 +28,17 @@ public class CameraSubsystem extends SubsystemBase {
         return Constants.VisionConstants.kRighty;
     }
 
-    public static void switchRightIndex(int index){
-        Constants.VisionConstants.kRighty.setPipelineIndex(index);
+    public static void switchIndex(int index, int camera) {
+        switch (camera) {
+            case 0:
+                Constants.VisionConstants.kLefty.setPipelineIndex(index);
+                break;
+
+            case 1:
+                Constants.VisionConstants.kRighty.setPipelineIndex(index);
+                break;
+        }
+
     }
 
     public static PhotonCamera getLeft() {
@@ -45,7 +53,7 @@ public class CameraSubsystem extends SubsystemBase {
 
     }
 
-    public void logging(double in, double in2, double in3){
+    public void logging(double in, double in2, double in3) {
         this.in = in;
         this.in2 = in2;
         this.in3 = in3;
@@ -72,13 +80,16 @@ public class CameraSubsystem extends SubsystemBase {
         updateOdometry();
     }
 
-    public void updateOdometry(){
-        Constants.VisionConstants.kPhotonPoseEstimator.setReferencePose(Constants.DriveConstants.m_odometry.getEstimatedPosition());
+    public void updateOdometry() {
+        Constants.VisionConstants.kPhotonPoseEstimator
+                .setReferencePose(Constants.DriveConstants.m_odometry.getEstimatedPosition());
         var result = Constants.VisionConstants.kPhotonPoseEstimator.update();
-        if(result.isPresent()){
-        EstimatedRobotPose estimate = result.get();
-        Constants.DriveConstants.m_odometry.addVisionMeasurement(estimate.estimatedPose.toPose2d(), estimate.timestampSeconds);
-        //may be necessary to use @link Timer instead of .timestampSeconds
-    }}
+        if (result.isPresent()) {
+            EstimatedRobotPose estimate = result.get();
+            Constants.DriveConstants.m_odometry.addVisionMeasurement(estimate.estimatedPose.toPose2d(),
+                    estimate.timestampSeconds);
+            // may be necessary to use @link Timer instead of .timestampSeconds
+        }
+    }
 
 }

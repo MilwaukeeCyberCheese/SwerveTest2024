@@ -9,7 +9,8 @@ public class WheelsX extends Command {
     /**
      * Locks the wheels into a x position
      * 
-     * @param DriveSubsystem subsystem for driving
+     * @param DriveSubsystem subsystem for driving the robot
+     *                       {@link frc.robot.subsystems.DriveSubsystem link}
      */
     public WheelsX(DriveSubsystem subsystem) {
         m_driveSubsystem = subsystem;

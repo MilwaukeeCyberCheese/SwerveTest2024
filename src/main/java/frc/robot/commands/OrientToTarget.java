@@ -14,6 +14,13 @@ public class OrientToTarget extends Command {
     private PIDController thetaController = new PIDController(Constants.AutoConstants.kThetaPIDConstants.kP,
             Constants.AutoConstants.kThetaPIDConstants.kI, Constants.AutoConstants.kThetaPIDConstants.kD);
 
+    /**
+     * 
+     * @param driveSubsystem  subsystem for driving the robot
+     *                        {@link frc.robot.subsystems.DriveSubsystem link}
+     * @param cameraSubsystem subsystem containing the cameras
+     *                        {@link frc.robot.subsystems.CameraSubsystem link}
+     */
     public OrientToTarget(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem) {
         m_driveSubsystem = driveSubsystem;
         m_cameraSubsytem = cameraSubsystem;
