@@ -13,31 +13,34 @@ public class SwerveTab {
     public static ShuffleboardTab swerve = Shuffleboard.getTab("Swerve");
 
     public static GenericEntry fLRot = swerve.add("FL Rotation", 0).withWidget(BuiltInWidgets.kDial)
-            .withProperties(Map.of("min", 0, "max", 360))
+            .withProperties(Map.of("min", 0, "max", 360)).withSize(5, 5).withPosition(3, 0)
             .getEntry();
     public static GenericEntry fLSpeed = swerve.add("FL Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-            .withProperties(Map.of("min", -3, "max", 3))
+            .withProperties(Map.of("min", -3, "max", 3)).withSize(2, 5).withPosition(1, 0)
             .getEntry();
 
     public static GenericEntry fRRot = swerve.add("FR Rotation", 0).withWidget(BuiltInWidgets.kDial)
-            .withProperties(Map.of("min", 0, "max", 360))
+            .withProperties(Map.of("min", 0, "max", 360)).withSize(5, 5).withPosition(11, 0)
             .getEntry();
     public static GenericEntry fRSpeed = swerve.add("FR Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-            .withProperties(Map.of("min", -3, "max", 3))
+            .withPosition(9, 0)
+            .withProperties(Map.of("min", -3, "max", 3)).withSize(2, 5)
             .getEntry();
 
     public static GenericEntry bLRot = swerve.add("BL Rotation", 0).withWidget(BuiltInWidgets.kDial)
-            .withProperties(Map.of("min", 0, "max", 360))
+            .withProperties(Map.of("min", 0, "max", 360)).withSize(5, 5).withPosition(3, 5)
             .getEntry();
     public static GenericEntry bLSpeed = swerve.add("BL Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-            .withProperties(Map.of("min", -3, "max", 3))
+            .withPosition(1, 5)
+            .withProperties(Map.of("min", -3, "max", 3)).withSize(2, 5)
             .getEntry();
 
     public static GenericEntry bRRot = swerve.add("BR Rotation", 0).withWidget(BuiltInWidgets.kDial)
-            .withProperties(Map.of("min", 0, "max", 360))
+            .withProperties(Map.of("min", 0, "max", 360)).withSize(5, 5).withPosition(11, 5)
             .getEntry();
     public static GenericEntry bRSpeed = swerve.add("BR Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-            .withProperties(Map.of("min", -3, "max", 3))
+            .withPosition(9, 5)
+            .withProperties(Map.of("min", -3, "max", 3)).withSize(2, 5)
             .getEntry();
 
     public static void logSwerve(MAXSwerveModule m_frontLeft, MAXSwerveModule m_frontRight, MAXSwerveModule m_backLeft,
