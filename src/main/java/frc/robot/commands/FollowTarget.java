@@ -13,9 +13,11 @@ import frc.robot.subsystems.DriveSubsystem;
 public class FollowTarget extends Command {
     private final DriveSubsystem m_driveSubsystem;
     private final CameraSubsystem m_cameraSubsytem;
-    private PIDController thetaController = new PIDController(
-            0.01, 0, 0);
-    private PIDController yController = new PIDController(0.05, 0, 0);
+    private PIDController thetaController = new PIDController(Constants.AutoConstants.kThetaPIDConstants.kP,
+            Constants.AutoConstants.kThetaPIDConstants.kI, Constants.AutoConstants.kThetaPIDConstants.kD);
+
+    private PIDController translationController = new PIDController(Constants.AutoConstants.kTranslationPIDConstants.kP,
+            Constants.AutoConstants.kTranslationPIDConstants.kI, Constants.AutoConstants.kTranslationPIDConstants.kD);
 
     public FollowTarget(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem) {
         m_driveSubsystem = driveSubsystem;
@@ -39,7 +41,7 @@ public class FollowTarget extends Command {
                     0,
                     Units.degreesToRadians(target.getPitch()));
             if (range > 0.2) {
-                yOutput = -yController.calculate(range, 0.5);
+                yOutput = -translationController.calculate(range, 0.5);
             }
         }
 

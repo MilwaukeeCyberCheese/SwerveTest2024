@@ -11,8 +11,8 @@ import frc.robot.subsystems.DriveSubsystem;
 public class OrientToTarget extends Command {
     private final DriveSubsystem m_driveSubsystem;
     private final CameraSubsystem m_cameraSubsytem;
-    private PIDController thetaController = new PIDController(
-                Constants.AutoConstants.kThetaPIDConstants);
+    private PIDController thetaController = new PIDController(Constants.AutoConstants.kThetaPIDConstants.kP,
+            Constants.AutoConstants.kThetaPIDConstants.kI, Constants.AutoConstants.kThetaPIDConstants.kD);
 
     public OrientToTarget(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem) {
         m_driveSubsystem = driveSubsystem;
@@ -24,12 +24,12 @@ public class OrientToTarget extends Command {
     public void execute() {
         double thetaOutput = 0;
         PhotonTrackedTarget target = m_cameraSubsytem.getRightTarget();
-        if(target != null){
-        double desiredAngle = Constants.Sensors.gyro.getYaw() + target.getYaw();
-        thetaController.setSetpoint(desiredAngle);
-        thetaOutput = thetaController.calculate(Constants.Sensors.gyro.getYaw());
+        if (target != null) {
+            double desiredAngle = Constants.Sensors.gyro.getYaw() + target.getYaw();
+            thetaController.setSetpoint(desiredAngle);
+            thetaOutput = thetaController.calculate(Constants.Sensors.gyro.getYaw());
         }
-        
+
         m_cameraSubsytem.logging(thetaOutput, 0, 0);
 
         m_driveSubsystem.drive(0.0, 0.0, thetaOutput, false, false, false);
