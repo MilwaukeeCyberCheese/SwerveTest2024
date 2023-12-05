@@ -67,25 +67,26 @@ public final class Constants {
                 .getEntry();
 
         public static GenericEntry fRRot = swerve.add("FR Rotation", 0).withWidget(BuiltInWidgets.kDial)
-        .withProperties(Map.of("min", 0, "max", 360))
+                .withProperties(Map.of("min", 0, "max", 360))
                 .getEntry();
         public static GenericEntry fRSpeed = swerve.add("FR Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-        .withProperties(Map.of("min", -3, "max", 3))
+                .withProperties(Map.of("min", -3, "max", 3))
                 .getEntry();
 
         public static GenericEntry bLRot = swerve.add("BL Rotation", 0).withWidget(BuiltInWidgets.kDial)
-        .withProperties(Map.of("min", 0, "max", 360))
+                .withProperties(Map.of("min", 0, "max", 360))
                 .getEntry();
         public static GenericEntry bLSpeed = swerve.add("BL Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-        .withProperties(Map.of("min", -3, "max", 3))
+                .withProperties(Map.of("min", -3, "max", 3))
                 .getEntry();
 
         public static GenericEntry bRRot = swerve.add("BR Rotation", 0).withWidget(BuiltInWidgets.kDial)
-        .withProperties(Map.of("min", 0, "max", 360))
+                .withProperties(Map.of("min", 0, "max", 360))
                 .getEntry();
         public static GenericEntry bRSpeed = swerve.add("BR Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-        .withProperties(Map.of("min", -3, "max", 3))
+                .withProperties(Map.of("min", -3, "max", 3))
                 .getEntry();
+
     }
 
     public static final class Sensors {
@@ -130,14 +131,14 @@ public final class Constants {
 
         // SPARK MAX CAN IDs
         public static final int kFrontLeftDrivingCanId = 1;
-        public static final int kRearLeftDrivingCanId = 3;
+        public static final int kBackLeftDrivingCanId = 3;
         public static final int kFrontRightDrivingCanId = 5;
-        public static final int kRearRightDrivingCanId = 7;
+        public static final int kBackRightDrivingCanId = 7;
 
         public static final int kFrontLeftTurningCanId = 2;
-        public static final int kRearLeftTurningCanId = 4;
+        public static final int kBackLeftTurningCanId = 4;
         public static final int kFrontRightTurningCanId = 6;
-        public static final int kRearRightTurningCanId = 8;
+        public static final int kBackRightTurningCanId = 8;
 
         public static final boolean kGyroReversed = true;
 
@@ -152,8 +153,8 @@ public final class Constants {
                 new SwerveModulePosition[] {
                         ModuleConstants.m_frontLeft.getPosition(),
                         ModuleConstants.m_frontRight.getPosition(),
-                        ModuleConstants.m_rearLeft.getPosition(),
-                        ModuleConstants.m_rearRight.getPosition()
+                        ModuleConstants.m_backLeft.getPosition(),
+                        ModuleConstants.m_backRight.getPosition()
                 }, kStartingPose);
     }
 
@@ -223,14 +224,14 @@ public final class Constants {
                 Constants.DriveConstants.kFrontRightTurningCanId,
                 Constants.DriveConstants.kFrontRightChassisAngularOffset);
 
-        public final static MAXSwerveModule m_rearLeft = new MAXSwerveModule(
-                Constants.DriveConstants.kRearLeftDrivingCanId,
-                Constants.DriveConstants.kRearLeftTurningCanId,
+        public final static MAXSwerveModule m_backLeft = new MAXSwerveModule(
+                Constants.DriveConstants.kBackLeftDrivingCanId,
+                Constants.DriveConstants.kBackLeftTurningCanId,
                 Constants.DriveConstants.kBackLeftChassisAngularOffset);
 
-        public final static MAXSwerveModule m_rearRight = new MAXSwerveModule(
-                Constants.DriveConstants.kRearRightDrivingCanId,
-                Constants.DriveConstants.kRearRightTurningCanId,
+        public final static MAXSwerveModule m_backRight = new MAXSwerveModule(
+                Constants.DriveConstants.kBackRightDrivingCanId,
+                Constants.DriveConstants.kBackRightTurningCanId,
                 Constants.DriveConstants.kBackRightChassisAngularOffset);
     }
 

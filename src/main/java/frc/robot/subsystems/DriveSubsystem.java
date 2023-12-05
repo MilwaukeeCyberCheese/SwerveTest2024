@@ -42,8 +42,8 @@ public class DriveSubsystem extends SubsystemBase {
         new SwerveModulePosition[] {
             Constants.ModuleConstants.m_frontLeft.getPosition(),
             Constants.ModuleConstants.m_frontRight.getPosition(),
-            Constants.ModuleConstants.m_rearLeft.getPosition(),
-            Constants.ModuleConstants.m_rearRight.getPosition()
+            Constants.ModuleConstants.m_backLeft.getPosition(),
+            Constants.ModuleConstants.m_backRight.getPosition()
         });
 
     log();
@@ -71,8 +71,8 @@ public class DriveSubsystem extends SubsystemBase {
         new SwerveModulePosition[] {
             Constants.ModuleConstants.m_frontLeft.getPosition(),
             Constants.ModuleConstants.m_frontRight.getPosition(),
-            Constants.ModuleConstants.m_rearLeft.getPosition(),
-            Constants.ModuleConstants.m_rearRight.getPosition()
+            Constants.ModuleConstants.m_backLeft.getPosition(),
+            Constants.ModuleConstants.m_backRight.getPosition()
         },
         pose);
   }
@@ -165,8 +165,8 @@ public class DriveSubsystem extends SubsystemBase {
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[0]);
     Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[1]);
-    Constants.ModuleConstants.m_rearLeft.setDesiredState(swerveModuleStates[2]);
-    Constants.ModuleConstants.m_rearRight.setDesiredState(swerveModuleStates[3]);
+    Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[2]);
+    Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[3]);
   }
 
   /**
@@ -186,8 +186,8 @@ public class DriveSubsystem extends SubsystemBase {
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[0]);
     Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[1]);
-    Constants.ModuleConstants.m_rearLeft.setDesiredState(swerveModuleStates[2]);
-    Constants.ModuleConstants.m_rearRight.setDesiredState(swerveModuleStates[3]);
+    Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[2]);
+    Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[3]);
   }
 
   /**
@@ -263,8 +263,8 @@ public class DriveSubsystem extends SubsystemBase {
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[0]);
     Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[1]);
-    Constants.ModuleConstants.m_rearLeft.setDesiredState(swerveModuleStates[2]);
-    Constants.ModuleConstants.m_rearRight.setDesiredState(swerveModuleStates[3]);
+    Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[2]);
+    Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[3]);
   }
 
   /**
@@ -275,8 +275,8 @@ public class DriveSubsystem extends SubsystemBase {
         .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
     Constants.ModuleConstants.m_frontRight
         .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
-    Constants.ModuleConstants.m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
-    Constants.ModuleConstants.m_rearRight
+    Constants.ModuleConstants.m_backLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
+    Constants.ModuleConstants.m_backRight
         .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
   }
 
@@ -290,8 +290,8 @@ public class DriveSubsystem extends SubsystemBase {
         desiredStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     Constants.ModuleConstants.m_frontLeft.setDesiredState(desiredStates[0]);
     Constants.ModuleConstants.m_frontRight.setDesiredState(desiredStates[1]);
-    Constants.ModuleConstants.m_rearLeft.setDesiredState(desiredStates[2]);
-    Constants.ModuleConstants.m_rearRight.setDesiredState(desiredStates[3]);
+    Constants.ModuleConstants.m_backLeft.setDesiredState(desiredStates[2]);
+    Constants.ModuleConstants.m_backRight.setDesiredState(desiredStates[3]);
   }
 
   /**
@@ -301,17 +301,17 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public static SwerveModuleState[] getModuleStates() {
     SwerveModuleState[] states = { Constants.ModuleConstants.m_frontLeft.getState(),
-        Constants.ModuleConstants.m_frontRight.getState(), Constants.ModuleConstants.m_rearLeft.getState(),
-        Constants.ModuleConstants.m_rearRight.getState() };
+        Constants.ModuleConstants.m_frontRight.getState(), Constants.ModuleConstants.m_backLeft.getState(),
+        Constants.ModuleConstants.m_backRight.getState() };
     return states;
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
     Constants.ModuleConstants.m_frontLeft.resetEncoders();
-    Constants.ModuleConstants.m_rearLeft.resetEncoders();
+    Constants.ModuleConstants.m_backLeft.resetEncoders();
     Constants.ModuleConstants.m_frontRight.resetEncoders();
-    Constants.ModuleConstants.m_rearRight.resetEncoders();
+    Constants.ModuleConstants.m_backRight.resetEncoders();
   }
 
   /** Zeroes the heading of the robot. */
@@ -321,6 +321,15 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void log() {
     PPLibTelemetry.setCurrentPose(getPose());
+
+    Constants.ShuffleBoard.fLRot.setDouble(Constants.ModuleConstants.m_frontLeft.getState().angle.getDegrees());
+    Constants.ShuffleBoard.fLSpeed.setDouble(Constants.ModuleConstants.m_frontLeft.getState().speedMetersPerSecond);
+    Constants.ShuffleBoard.fRRot.setDouble(Constants.ModuleConstants.m_frontRight.getState().angle.getDegrees());
+    Constants.ShuffleBoard.fRSpeed.setDouble(Constants.ModuleConstants.m_frontRight.getState().speedMetersPerSecond);
+    Constants.ShuffleBoard.bLRot.setDouble(Constants.ModuleConstants.m_backLeft.getState().angle.getDegrees());
+    Constants.ShuffleBoard.bLSpeed.setDouble(Constants.ModuleConstants.m_backLeft.getState().speedMetersPerSecond);
+    Constants.ShuffleBoard.bRRot.setDouble(Constants.ModuleConstants.m_backRight.getState().angle.getDegrees());
+    Constants.ShuffleBoard.bRSpeed.setDouble(Constants.ModuleConstants.m_backRight.getState().speedMetersPerSecond);
 
   }
 
