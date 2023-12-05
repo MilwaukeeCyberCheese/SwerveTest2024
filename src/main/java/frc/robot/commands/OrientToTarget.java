@@ -1,11 +1,9 @@
 package frc.robot.commands;
 
 import org.photonvision.targeting.PhotonTrackedTarget;
-
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -31,14 +29,12 @@ public class OrientToTarget extends Command {
         double thetaOutput = 0;
         PhotonTrackedTarget target = m_cameraSubsytem.getRightTarget();
         if (target != null) {
-            double desiredAngle = Constants.Sensors.gyro.getYaw() + target.getYaw();
-            thetaController.setSetpoint(desiredAngle);
-            thetaOutput = thetaController.calculate(Constants.Sensors.gyro.getYaw());
+            thetaOutput = target.getYaw();
         }
 
         m_cameraSubsytem.logging(thetaOutput, 0, 0);
 
-        m_driveSubsystem.drive(0.0, 0.0, thetaOutput, false, false, false);
+        m_driveSubsystem.drive(new Pose2d(0, 0, new Rotation2d(thetaOutput)));
     }
 
     @Override
