@@ -274,7 +274,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Drive to a pose, the pose is centered on the robot
+   * Drive to a pose, assuming the robot is always at (0, 0)
    * 
    * @param pose position to drive to
    */
@@ -363,6 +363,10 @@ public class DriveSubsystem extends SubsystemBase {
     return Constants.Sensors.gyro.getRate() * (Constants.DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
+  /**
+   * 
+   * @return ChassisSpeeds object relative to the robot
+   */
   public ChassisSpeeds getRobotRelativeSpeeds() {
     ChassisSpeeds speeds = Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
     return speeds;

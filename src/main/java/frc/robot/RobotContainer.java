@@ -18,7 +18,6 @@ import frc.robot.commands.DriveStop;
 import frc.robot.commands.FollowTarget;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.OrientToTarget;
-import frc.robot.commands.SwitchPipeline;
 import frc.robot.commands.WheelsX;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -45,6 +44,7 @@ public class RobotContainer {
         // initialize the controllers
         // the one on the left
         public static FilteredJoystick m_leftJoystick = new FilteredJoystick(Constants.OIConstants.kLeftJoystickPort);
+
         // the one on the right
         public static FilteredJoystick m_rightJoystick = new FilteredJoystick(Constants.OIConstants.kRightJoystickPort);
         FilteredButton m_buttons = new FilteredButton(OIConstants.kButtonPort);
@@ -73,7 +73,7 @@ public class RobotContainer {
                                 m_robotDrive::getRobotRelativeSpeeds,
                                 m_robotDrive::drive,
                                 Constants.AutoConstants.kPathFollowerConfig,
-                                m_robotDrive // Reference to this subsystem to set requirements
+                                m_robotDrive
                 );
 
                 autoChooser = AutoBuilder.buildAutoChooser();
@@ -83,8 +83,7 @@ public class RobotContainer {
         }
 
         /**
-         * 2
-         * Use this method to define your button->command mappings. Buttons can be
+         * Use this method to define your button -> command mappings. Buttons can be
          * created by
          * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its
          * subclasses ({@link
@@ -96,20 +95,16 @@ public class RobotContainer {
                 // top left button and x button on controller sets wheels to x
                 new Trigger(m_buttons::getOneA).or(
                                 m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_robotDrive));
-                // top right button resets gyro
+                // top right button resets gyro or right button five
                 new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
                 // bottom middle button stops drive
                 new Trigger(m_buttons::getThreeB).whileTrue(new DriveStop(m_robotDrive));
-                // orient to target
+                // orient to target on right joystick three, or middle middle button
                 new Trigger(m_rightJoystick::getButtonThree).and(m_buttons::getTwoB)
                                 .whileTrue(new OrientToTarget(m_robotDrive, m_cameraSubsytem));
+                //follow target on right joystick four
                 new Trigger(m_rightJoystick::getButtonFour).whileTrue(new FollowTarget(m_robotDrive, m_cameraSubsytem));
-                new Trigger(m_leftJoystick::getButtonFour)
-                                .onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kConeIndex,
-                                                () -> 1));
-                new Trigger(m_leftJoystick::getButtonFive)
-                                .onTrue(new SwitchPipeline(m_cameraSubsytem, Constants.VisionConstants.kCubeIndex,
-                                                () -> 1));
+                //reset odo on right joystick ten
                 new Trigger(m_rightJoystick::getButtonTen).onTrue(m_robotDrive.runOnce(
                                 () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)))));
 

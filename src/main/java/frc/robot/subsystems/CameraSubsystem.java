@@ -24,10 +24,20 @@ public class CameraSubsystem extends SubsystemBase {
 
     }
 
-    public static PhotonCamera getkRighty() {
+    /**
+     * 
+     * @return the right camera
+     */
+    public static PhotonCamera getRighty() {
         return Constants.VisionConstants.kRighty;
     }
 
+    /**
+     * switches pipeline of a camera
+     * 
+     * @param index  pipeline to switch to
+     * @param camera camera to switch pipelines for
+     */
     public static void switchIndex(int index, int camera) {
         switch (camera) {
             case 0:
@@ -41,10 +51,20 @@ public class CameraSubsystem extends SubsystemBase {
 
     }
 
-    public static PhotonCamera getLeft() {
+    /**
+     * 
+     * @return the left camera
+     */
+    public static PhotonCamera getLefty() {
         return Constants.VisionConstants.kLefty;
     }
 
+    /**
+     * Before using the target, ensure that it is present
+     * 
+     * @return the target found by the right camera
+     * 
+     */
     public PhotonTrackedTarget getRightTarget() {
 
         var result = Constants.VisionConstants.kRighty.getLatestResult();
@@ -53,6 +73,28 @@ public class CameraSubsystem extends SubsystemBase {
 
     }
 
+    /**
+     * Before using the target, ensure that it is present
+     * 
+     * @return the target found by the left camera
+     * 
+     */
+    public PhotonTrackedTarget getLeftTarget() {
+
+        var result = Constants.VisionConstants.kLefty.getLatestResult();
+        target = result.getBestTarget();
+        return target;
+
+    }
+
+    // TODO
+    /**
+     * to be entirely honest, this needs to be removed and reworked.
+     * 
+     * @param in
+     * @param in2
+     * @param in3
+     */
     public void logging(double in, double in2, double in3) {
         this.in = in;
         this.in2 = in2;
@@ -80,6 +122,9 @@ public class CameraSubsystem extends SubsystemBase {
         updateOdometry();
     }
 
+    /**
+     * update the odometry based on aprilTags
+     */
     public void updateOdometry() {
         Constants.VisionConstants.kPhotonPoseEstimator
                 .setReferencePose(Constants.DriveConstants.m_odometry.getEstimatedPosition());
