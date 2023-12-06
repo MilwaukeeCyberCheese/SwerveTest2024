@@ -215,9 +215,12 @@ public class DriveSubsystem extends SubsystemBase {
     double ySpeedDelivered;
     double rotDelivered;
 
-    double ySpeed = chassisSpeeds.vyMetersPerSecond;
-    double xSpeed = chassisSpeeds.vxMetersPerSecond;
-    double rot = chassisSpeeds.omegaRadiansPerSecond;
+    ChassisSpeeds invertedChassisSpeeds = new ChassisSpeeds(chassisSpeeds.vyMetersPerSecond * -1,
+        chassisSpeeds.vxMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond);
+
+    double ySpeed = invertedChassisSpeeds.vyMetersPerSecond;
+    double xSpeed = invertedChassisSpeeds.vxMetersPerSecond;
+    double rot = invertedChassisSpeeds.omegaRadiansPerSecond;
 
     // Convert XY to polar for rate limiting
     double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
