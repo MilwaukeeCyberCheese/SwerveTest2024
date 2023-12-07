@@ -42,12 +42,12 @@ public class SwerveTab {
                         .withProperties(Map.of("min", 0, "max", 3, "orientation", "VERTICAL", "show text", false)).withSize(1, 2).withPosition(7, 2)
                         .getEntry();
 
-        public static ComplexWidget gyroOdo = swerveTab.add(Constants.Sensors.gyro).withWidget(BuiltInWidgets.kGyro)
+        public static ComplexWidget gyroOdo = swerveTab.add("Gyroscope", Constants.Sensors.gyro).withWidget(BuiltInWidgets.kGyro)
                         .withProperties(Map.of("major tick spacing", 30)).withSize(2, 2).withPosition(4, 0);
 
-        // public static ComplexWidget gyroAccel = swerveTab.add(Constants.Sensors.gyro)
-        //                 .withWidget(BuiltInWidgets.k3AxisAccelerometer).withProperties(Map.of()).withSize(2, 2)
-        //                 .withPosition(7, 3);
+        public static ComplexWidget gyroAccel = swerveTab.add("Accelerometer", Constants.Sensors.gyro)
+                        .withWidget(BuiltInWidgets.k3AxisAccelerometer).withProperties(Map.of()).withSize(2, 2)
+                        .withPosition(7, 3);
 
         /**
          * Add positions of swerve modules to the dashboard
