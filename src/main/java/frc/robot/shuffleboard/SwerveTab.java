@@ -47,7 +47,7 @@ public class SwerveTab {
 
         public static ComplexWidget gyroAccel = swerveTab.add("Accelerometer", Constants.Sensors.gyro)
                         .withWidget(BuiltInWidgets.k3AxisAccelerometer).withProperties(Map.of()).withSize(2, 2)
-                        .withPosition(7, 3);
+                        .withPosition(4, 3);
 
         /**
          * Add positions of swerve modules to the dashboard
