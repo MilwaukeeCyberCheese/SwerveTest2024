@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.autos.AutoTest;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,7 +36,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // add autos
     m_autoChooser.setDefaultOption("Zilch", null);
-    m_autoChooser.addOption("Test", new AutoTest(RobotContainer.m_robotDrive));
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
