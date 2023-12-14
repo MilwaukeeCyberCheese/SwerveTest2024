@@ -18,7 +18,7 @@ public class DriveStop extends Command {
 
     @Override
     public void execute() {
-        m_driveSubsystem.drive(0, 0, 0, false, false, false);
+        m_driveSubsystem.drive(0, 0, 0, false, false);
     }
 
     @Override

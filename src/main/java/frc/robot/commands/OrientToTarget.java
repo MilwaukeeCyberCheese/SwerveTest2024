@@ -10,7 +10,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class OrientToTarget extends Command {
     private final DriveSubsystem m_driveSubsystem;
     private final CameraSubsystem m_cameraSubsytem;
-    
+
     /**
      * 
      * @param driveSubsystem  subsystem for driving the robot

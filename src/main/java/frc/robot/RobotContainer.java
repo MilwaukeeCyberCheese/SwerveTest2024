@@ -18,7 +18,6 @@ import frc.robot.commands.DriveStop;
 import frc.robot.commands.FollowTarget;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.OrientToTarget;
-import frc.robot.commands.WheelsX;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.utils.FilteredButton;
@@ -94,7 +93,7 @@ public class RobotContainer {
         private void configureButtonBindings() {
                 // top left button and x button on controller sets wheels to x
                 new Trigger(m_buttons::getOneA).or(
-                                m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_robotDrive));
+                                m_rightJoystick::getButtonSeven).whileTrue(m_robotDrive.runOnce( () -> m_robotDrive.setX()));
                 // top right button resets gyro or right button five
                 new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
                 // bottom middle button stops drive

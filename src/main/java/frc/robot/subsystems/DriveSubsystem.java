@@ -100,7 +100,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    * @param slow          Whether to enable slow mode for more precise control.
    */
-  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit, boolean slow) {
+  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
 
     double xSpeedCommanded;
     double ySpeedCommanded;
@@ -155,16 +155,11 @@ public class DriveSubsystem extends SubsystemBase {
       m_currentRotation = rot;
     }
 
-    // Slow mode
-    if (slow) {
-      xSpeedDelivered = xSpeedCommanded * Constants.DriveConstants.kSlowModifier;
-      ySpeedDelivered = ySpeedCommanded * Constants.DriveConstants.kSlowModifier;
-      rotDelivered = m_currentRotation * Constants.DriveConstants.kSlowModifier;
-    } else {
+    
       xSpeedDelivered = xSpeedCommanded * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
       ySpeedDelivered = ySpeedCommanded * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
       rotDelivered = m_currentRotation * Constants.DriveConstants.kMaxAngularSpeed;
-    }
+    
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
