@@ -35,28 +35,25 @@ public class FollowTarget extends Command {
     public void execute() {
         double thetaOutput = 0;
         double yOutput = 0;
-         double range = 0;
-         PhotonTrackedTarget target = m_cameraSubsytem.getRightTarget();
-       
+        double range = 0;
+        PhotonTrackedTarget target = m_cameraSubsytem.getRightTarget();
+
+        //check if target is present
         if (target != null) {
+            //set theta based on yaw
             thetaOutput = Math.toRadians(target.getYaw());
 
-            
-
+            //calculate range
             range = PhotonUtils.calculateDistanceToTargetMeters(
                     Constants.VisionConstants.kCameraHeight,
                     Constants.VisionConstants.kCubeHeight,
                     0,
                     Units.degreesToRadians(target.getPitch()));
 
+            //set y based on range
             yOutput = (range > 0.2) ? range - 0.5 : 0.0;
 
-            
         }
-
-        
-
-        
 
         m_driveSubsystem.drive(new Pose2d(0.0, yOutput, new Rotation2d(thetaOutput)));
 

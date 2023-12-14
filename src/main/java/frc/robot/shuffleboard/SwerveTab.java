@@ -18,31 +18,36 @@ public class SwerveTab {
                         .withProperties(Map.of()).withSize(2, 2).withPosition(1, 0)
                         .getEntry();
         public static GenericEntry fLSpeed = swerveTab.add("FL Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-                        .withProperties(Map.of("min", 0, "max", 3, "orientation", "VERTICAL", "show text", false)).withSize(1, 2).withPosition(0, 0)
+                        .withProperties(Map.of("min", 0, "max", 3, "orientation", "VERTICAL", "show text", false))
+                        .withSize(1, 2).withPosition(0, 0)
                         .getEntry();
 
         public static GenericEntry fRRot = swerveTab.add("FR Rotation", 0).withWidget(BuiltInWidgets.kGyro)
                         .withProperties(Map.of()).withSize(2, 2).withPosition(8, 0)
                         .getEntry();
         public static GenericEntry fRSpeed = swerveTab.add("FR Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-                        .withProperties(Map.of("min", 0, "max", 3, "orientation", "VERTICAL", "show text", false)).withSize(1, 2).withPosition(7, 0)
+                        .withProperties(Map.of("min", 0, "max", 3, "orientation", "VERTICAL", "show text", false))
+                        .withSize(1, 2).withPosition(7, 0)
                         .getEntry();
 
         public static GenericEntry bLRot = swerveTab.add("BL Rotation", 0).withWidget(BuiltInWidgets.kGyro)
                         .withProperties(Map.of()).withSize(2, 2).withPosition(1, 2)
                         .getEntry();
         public static GenericEntry bLSpeed = swerveTab.add("BL Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-                        .withProperties(Map.of("min", 0, "max", 3, "orientation", "VERTICAL", "show text", false)).withSize(1, 2).withPosition(0, 2)
+                        .withProperties(Map.of("min", 0, "max", 3, "orientation", "VERTICAL", "show text", false))
+                        .withSize(1, 2).withPosition(0, 2)
                         .getEntry();
 
         public static GenericEntry bRRot = swerveTab.add("BR Rotation", 0).withWidget(BuiltInWidgets.kGyro)
                         .withProperties(Map.of()).withSize(2, 2).withPosition(8, 2)
                         .getEntry();
         public static GenericEntry bRSpeed = swerveTab.add("BR Speed", 0).withWidget(BuiltInWidgets.kNumberBar)
-                        .withProperties(Map.of("min", 0, "max", 3, "orientation", "VERTICAL", "show text", false)).withSize(1, 2).withPosition(7, 2)
+                        .withProperties(Map.of("min", 0, "max", 3, "orientation", "VERTICAL", "show text", false))
+                        .withSize(1, 2).withPosition(7, 2)
                         .getEntry();
 
-        public static ComplexWidget gyroOdo = swerveTab.add("Gyroscope", Constants.Sensors.gyro).withWidget(BuiltInWidgets.kGyro)
+        public static ComplexWidget gyroOdo = swerveTab.add("Gyroscope", Constants.Sensors.gyro)
+                        .withWidget(BuiltInWidgets.kGyro)
                         .withProperties(Map.of("major tick spacing", 30)).withSize(2, 2).withPosition(4, 0);
 
         public static ComplexWidget gyroAccel = swerveTab.add("Accelerometer", Constants.Sensors.gyro)
