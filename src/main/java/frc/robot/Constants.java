@@ -102,7 +102,7 @@ public final class Constants {
         public static final int kFrontRightTurningCanId = 6;
         public static final int kBackRightTurningCanId = 8;
 
-        public static final boolean kGyroReversed = true;
+        public static final boolean kGyroReversed = false;
 
         // starting pose of the robot
         public static final Pose2d kStartingPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));

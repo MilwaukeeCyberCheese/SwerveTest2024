@@ -102,11 +102,11 @@ public class CameraSubsystem extends SubsystemBase {
     }
 
     public void log() {
-        SmartDashboard.putNumber("Gyro Yaw", Constants.Sensors.gyro.getYaw());
+        SmartDashboard.putNumber("Gyro Yaw", Constants.Sensors.gyro.getYaw() * ((Constants.DriveConstants.kGyroReversed) ? -1 : 1));
         SmartDashboard.putNumber("Pipeline Index", Constants.VisionConstants.kRighty.getPipelineIndex());
         try {
             SmartDashboard.putNumber("Target Yaw (deg)", target.getYaw());
-            SmartDashboard.putNumber("Desired Angle (deg)", Constants.Sensors.gyro.getYaw() + target.getYaw());
+            SmartDashboard.putNumber("Desired Angle (deg)", Constants.Sensors.gyro.getYaw() *  + target.getYaw());
             SmartDashboard.putNumber("Theta Output", in);
 
             SmartDashboard.putNumber("Target Distance (m)", in2);
