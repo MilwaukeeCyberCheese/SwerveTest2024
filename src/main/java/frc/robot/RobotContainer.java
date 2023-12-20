@@ -96,9 +96,8 @@ public class RobotContainer {
                                 m_rightJoystick::getButtonSeven).whileTrue(m_robotDrive.runOnce( () -> m_robotDrive.setX()));
                 // top right button resets gyro or right button five
                 new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
-                // KILL SWITCH
-                // If robot is not working, switch to whileTrue
-                new Trigger(m_buttons::getThreeB).whileFalse(new DriveStop(m_robotDrive));
+                // bottom middle button stops drive
+                new Trigger(m_buttons::getThreeB).whileTrue(new DriveStop(m_robotDrive));
                 // orient to target on right joystick three, or middle middle button
                 new Trigger(m_rightJoystick::getButtonThree).and(m_buttons::getTwoB)
                                 .whileTrue(new OrientToTarget(m_robotDrive, m_cameraSubsytem));
