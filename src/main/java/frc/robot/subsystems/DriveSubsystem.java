@@ -16,7 +16,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import frc.robot.Constants;
-import frc.robot.shuffleboard.SwerveTab;
 import frc.robot.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -340,8 +339,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void log() {
     PPLibTelemetry.setCurrentPose(getPose());
 
-    SwerveTab.logSwerve(Constants.ModuleConstants.m_frontLeft, Constants.ModuleConstants.m_frontRight,
-        Constants.ModuleConstants.m_backLeft, Constants.ModuleConstants.m_backRight);
+   
   }
 
   /**
