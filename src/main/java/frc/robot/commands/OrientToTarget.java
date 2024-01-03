@@ -12,6 +12,9 @@ public class OrientToTarget extends Command {
     private final CameraSubsystem m_cameraSubsytem;
 
     /**
+     * Point towards, a detected
+     * {@link org.photonvision.targeting.PhotonTrackedTarget#PhotonTrackedTarget()
+     * PhotonTrackedTarget}
      * 
      * @param driveSubsystem  subsystem for driving the robot
      *                        {@link frc.robot.subsystems.DriveSubsystem link}
