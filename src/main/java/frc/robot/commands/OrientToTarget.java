@@ -35,8 +35,6 @@ public class OrientToTarget extends Command {
             thetaOutput = target.getYaw();
         }
 
-        m_cameraSubsytem.logging(thetaOutput, 0, 0);
-
         m_driveSubsystem.drive(new Pose2d(0, 0, new Rotation2d(thetaOutput)));
     }
 

@@ -2,11 +2,7 @@
 package frc.robot.subsystems;
 
 import org.photonvision.EstimatedRobotPose;
-import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
-
-import edu.wpi.first.math.util.Units;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -22,14 +18,6 @@ public class CameraSubsystem extends SubsystemBase {
      */
     public CameraSubsystem() {
 
-    }
-
-    /**
-     * 
-     * @return the right camera
-     */
-    public static PhotonCamera getRighty() {
-        return Constants.VisionConstants.kRighty;
     }
 
     /**
@@ -51,27 +39,6 @@ public class CameraSubsystem extends SubsystemBase {
 
     }
 
-    /**
-     * 
-     * @return the left camera
-     */
-    public static PhotonCamera getLefty() {
-        return Constants.VisionConstants.kLefty;
-    }
-
-    /**
-     * Before using the target, ensure that it is present
-     * 
-     * @return the target found by the right camera
-     * 
-     */
-    public PhotonTrackedTarget getRightTarget() {
-
-        var result = Constants.VisionConstants.kRighty.getLatestResult();
-        target = result.getBestTarget();
-        return target;
-
-    }
 
     /**
      * Before using the target, ensure that it is present
@@ -87,33 +54,24 @@ public class CameraSubsystem extends SubsystemBase {
 
     }
 
-    // TODO
     /**
-     * to be entirely honest, this needs to be removed and reworked.
+     * Returns target detected by the right camera
+     * <p>
+     * Before using the target, ensure that it is present
      * 
-     * @param in
-     * @param in2
-     * @param in3
+     * @return the target found by the right camera
+     * 
      */
-    public void logging(double in, double in2, double in3) {
-        this.in = in;
-        this.in2 = in2;
-        this.in3 = in3;
+    public PhotonTrackedTarget getRightTarget() {
+
+        var result = Constants.VisionConstants.kRighty.getLatestResult();
+        target = result.getBestTarget();
+        return target;
+
     }
 
     public void log() {
         SmartDashboard.putNumber("Gyro Yaw", Constants.Sensors.gyro.getYaw() * ((Constants.DriveConstants.kGyroReversed) ? -1 : 1));
-        SmartDashboard.putNumber("Pipeline Index", Constants.VisionConstants.kRighty.getPipelineIndex());
-        try {
-            SmartDashboard.putNumber("Target Yaw (deg)", target.getYaw());
-            SmartDashboard.putNumber("Desired Angle (deg)", Constants.Sensors.gyro.getYaw() *  + target.getYaw());
-            SmartDashboard.putNumber("Theta Output", in);
-
-            SmartDashboard.putNumber("Target Distance (m)", in2);
-            SmartDashboard.putNumber("Target Distance (in)", Units.metersToInches(in2));
-            SmartDashboard.putNumber("Y Output", in3);
-        } catch (Exception e) {
-        }
     }
 
     @Override
