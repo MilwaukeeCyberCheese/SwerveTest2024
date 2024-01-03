@@ -9,9 +9,6 @@ import frc.robot.Constants;
 
 public class CameraSubsystem extends SubsystemBase {
     private PhotonTrackedTarget target;
-    double in;
-    double in2;
-    double in3;
 
     /**
      * CameraSubsystem class holds the cameras used for vision
@@ -41,6 +38,8 @@ public class CameraSubsystem extends SubsystemBase {
 
 
     /**
+     * Returns target detected by the left camera
+     * <p>
      * Before using the target, ensure that it is present
      * 
      * @return the target found by the left camera
@@ -81,7 +80,7 @@ public class CameraSubsystem extends SubsystemBase {
     }
 
     /**
-     * update the odometry based on aprilTags
+     * Update the odometry based on aprilTags
      */
     public void updateOdometry() {
         Constants.VisionConstants.kPhotonPoseEstimator

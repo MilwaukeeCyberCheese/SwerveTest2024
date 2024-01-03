@@ -179,7 +179,7 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Method to drive the robot relative to itself without limiters, etc.
    * 
-   * @param ChassisSpeeds: chassisSpeeds to run the robot
+   * @param chassisSpeeds {@link edu.wpi.first.math.kinematics.ChassisSpeeds ChassisSpeeds} object the robot should be driven at
    */
   public void drive(ChassisSpeeds chassisSpeeds) {
 
