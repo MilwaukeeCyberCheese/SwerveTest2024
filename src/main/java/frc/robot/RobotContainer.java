@@ -21,6 +21,7 @@ import frc.robot.commands.OrientToTarget;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.utils.FilteredButton;
+import frc.robot.utils.FilteredController;
 import frc.robot.utils.FilteredJoystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -43,10 +44,12 @@ public class RobotContainer {
         // initialize the controllers
         // the one on the left
         public static FilteredJoystick m_leftJoystick = new FilteredJoystick(Constants.OIConstants.kLeftJoystickPort);
-
         // the one on the right
         public static FilteredJoystick m_rightJoystick = new FilteredJoystick(Constants.OIConstants.kRightJoystickPort);
+        //the buttons
         FilteredButton m_buttons = new FilteredButton(OIConstants.kButtonPort);
+        //operator controller
+        FilteredController m_controller = new FilteredController(Constants.OIConstants.kControllerPort);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
